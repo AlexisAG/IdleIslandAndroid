@@ -22,5 +22,12 @@
         Timer = 1,
         Amount = 2,
     }
+
+    public enum ResourceModificatorType
+    {
+        None = 0,
+        Reward = 1,
+        Cost = 2,
+    }
 }
 
