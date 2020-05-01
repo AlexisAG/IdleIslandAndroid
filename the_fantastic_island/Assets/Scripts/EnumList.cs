@@ -2,22 +2,25 @@
 {
     public enum Resource
     {
-        Gold,
-        Tools,
-        Knowledge,
-        Diamond,
+        None = 0,
+        Gold = 1,
+        Tools = 2,
+        Knowledge = 3,
+        Diamond = 4,
     }
 
     public enum BuildingPropertiesType
     {
-        Productivity,
-        Size,
+        None = 0,
+        Productivity = 1,
+        Size = 2,
     }
 
     public enum GiftPropertiesType
     {
-        Timer,
-        Amount,
+        None = 0,
+        Timer = 1,
+        Amount = 2,
     }
 }
 
