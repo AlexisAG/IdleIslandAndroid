@@ -17,6 +17,10 @@ namespace TheFantasticIsland
 
         private int _Amount = 0;
 
+        public ResourceModificatorType Type => _Type;
+        public Resource Resource => _Resource;
+        public int Amount => _Amount;
+
         public void AdjustAmount(int level = 0)
         {
             _Amount = Mathf.FloorToInt(_BaseAmount * Mathf.Exp(level));
@@ -39,12 +43,6 @@ namespace TheFantasticIsland
                     break;
             }
         }
-
-        public void ApplyModificator(float bonus)
-        {
-            // call ResourceManager & apply the modification
-            throw new NotImplementedException();
-        }
     }
 
     [Serializable]
@@ -66,10 +64,6 @@ namespace TheFantasticIsland
         public Building BuildingRef => _BuildingRef;
         public int LevelRequired => _LevelRequired;
 
-        public Condition()
-        {
-            AdjustCondition();
-        }
 
         public void AdjustCondition(int level = 0)
         {
