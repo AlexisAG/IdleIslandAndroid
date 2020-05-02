@@ -5,9 +5,9 @@ namespace TheFantasticIsland.DataScript
     public abstract class Action : ScriptableObject
     {
         [SerializeField]
-        protected string _Id;
+        protected string _Id = null;
         [SerializeField]
-        protected string _Description;
+        protected string _Description = null;
 
         public string Id => _Id;
         public string Description => _Description;
@@ -17,9 +17,9 @@ namespace TheFantasticIsland.DataScript
     public class BuildingAction : Action
     {
         [SerializeField]
-        private Building _BuildingRef;
+        private Building _BuildingRef = null;
         [SerializeField]
-        private BuildingPropertiesType _BuildingPropertiesType;
+        private BuildingPropertiesType _BuildingPropertiesType = BuildingPropertiesType.None;
 
         public Building BuildingRef => _BuildingRef;
         public BuildingPropertiesType BuildingProperties => _BuildingPropertiesType;
@@ -29,7 +29,7 @@ namespace TheFantasticIsland.DataScript
     public class PopulationAction : Action
     {
         [SerializeField]
-        private Population _PopulationRef;
+        private Population _PopulationRef = null;
 
         public Population PopulationRef => _PopulationRef;
     }
@@ -38,7 +38,7 @@ namespace TheFantasticIsland.DataScript
     public class GiftAction : Action
     {
         [SerializeField]
-        private Gift _GiftRef;
+        private Gift _GiftRef = null;
 
         public Gift GiftRef => _GiftRef;
     }

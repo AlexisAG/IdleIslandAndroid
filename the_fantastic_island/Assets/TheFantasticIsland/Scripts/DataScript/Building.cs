@@ -6,29 +6,26 @@ namespace TheFantasticIsland.DataScript
     public class Building : ScriptableObject
     {
         [SerializeField]
-        private string _Id;
+        private string _Id = null;
         [SerializeField]
-        private string _Description;
+        private string _Description = null;
         [SerializeField]
-        private ResourceModificator _ResourceProduction;
+        private ResourceModificator _ResourceProduction = null;
         [SerializeField]
-        private ResourceModificator _IncreaseProductionCost;
+        private ResourceModificator _IncreaseSizeCost = null;
         [SerializeField]
-        private ResourceModificator _IncreaseSizeCost;
+        private ResourceModificator _Cost = null;
         [SerializeField]
-        private BuildingBonus _SizeBonus;
+        private BuildingBonus _SizeBonus = null;
         [SerializeField]
-        private GameObject _BuildingPrefab;
-        [SerializeField]
-        private GameObject _WorkerPrefab;
+        private GameObject _BuildingPrefab = null;
 
         public string Id => _Id;
         public string Description => _Description;
         public ResourceModificator ResourceProduction => _ResourceProduction;
-        public ResourceModificator IncreaseProductionCost => _IncreaseProductionCost;
         public ResourceModificator IncreaseSizeCost => _IncreaseSizeCost;
+        public ResourceModificator Cost => _Cost;
         public BuildingBonus SizeBonus => _SizeBonus;
         public GameObject BuildingPrefab => _BuildingPrefab;
-        public GameObject WorkerPrefab => _WorkerPrefab;
     }
 }

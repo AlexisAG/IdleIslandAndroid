@@ -6,15 +6,15 @@ namespace TheFantasticIsland.DataScript
     public class Gift : ScriptableObject
     {
         [SerializeField]
-        private string _Id;
+        private string _Id = null;
         [SerializeField]
-        private string _Description;
+        private string _Description = null;
         [SerializeField, Tooltip("Timer in seconds")]
         private float _Timer = 300f;
         [SerializeField]
-        private ResourceModificator _Reward;
+        private ResourceModificator _Reward = null;
         [SerializeField]
-        private GameObject _Prefab;
+        private GameObject _Prefab = null;
 
         public string Id => _Id;
         public string Description => _Description;

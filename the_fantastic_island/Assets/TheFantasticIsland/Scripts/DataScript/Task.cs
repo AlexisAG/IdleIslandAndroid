@@ -4,41 +4,27 @@ using UnityEngine;
 
 namespace TheFantasticIsland.DataScript
 {
-    public abstract class Task : ScriptableObject
+    [CreateAssetMenu(menuName = "Task", fileName = "NewTask")]
+    public class Task : ScriptableObject
     {
         [SerializeField]
-        protected string _Id;
+        private string _Id = null;
         [SerializeField]
-        protected string _Description;
+        private string _Description = null;
         [SerializeField]
-        protected int _AmountToReach = 1;
+        private TaskType _Type = TaskType.None;
         [SerializeField]
-        protected Action _Action;
+        private Objective _Objective = null;
         [SerializeField]
-        protected List<ResourceModificator> _Rewards;
+        private Action _Action = null;
+        [SerializeField]
+        private List<ResourceModificator> _Rewards = null;
 
         public string Id => _Id;
         public string Description => _Description;
-        public int AmountToReach => _AmountToReach;
+        public TaskType Type => _Type;
+        public Objective Objective => _Objective;
         public Action Action => _Action;
         public List<ResourceModificator> Rewards => _Rewards;
-    }
-
-    [CreateAssetMenu(menuName = "Task/Success", fileName = "NewSuccess")]
-    public class Success : Task
-    {
-        [SerializeField]
-        private Success _NextSuccess;
-
-        public Success NexSuccess => _NextSuccess;
-    }
-
-    [CreateAssetMenu(menuName = "Task/Mission", fileName = "NewMission")]
-    public class Mission : Task
-    {
-        [SerializeField]
-        private int _Level = 1;
-
-        public int Level => _Level;
     }
 }
