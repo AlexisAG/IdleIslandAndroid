@@ -15,12 +15,7 @@ namespace TheFantasticIsland
         [SerializeField]
         private int _BaseAmount = 0;
 
-        private int _Amount;
-
-        public ResourceModificator()
-        {
-            AdjustAmount();
-        }
+        private int _Amount = 0;
 
         public void AdjustAmount(int level = 0)
         {
