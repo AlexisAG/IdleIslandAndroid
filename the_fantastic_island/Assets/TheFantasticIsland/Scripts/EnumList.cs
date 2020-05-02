@@ -29,5 +29,12 @@
         Reward = 1,
         Cost = 2,
     }
+
+    public enum TaskType
+    {
+        None = 0,
+        Mission = 1,
+        Success = 2,
+    }
 }
 

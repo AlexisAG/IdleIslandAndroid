@@ -49,11 +49,11 @@ namespace TheFantasticIsland
     public class Condition
     {
         [SerializeField]
-        private string _Id;
+        private string _Id = null;
         [SerializeField]
-        private string _Description;
+        private string _Description = null;
         [SerializeField]
-        private Building _BuildingRef;
+        private Building _BuildingRef = null;
         [SerializeField]
         private int _LevelRequiredBase = 1;
 
@@ -64,10 +64,31 @@ namespace TheFantasticIsland
         public Building BuildingRef => _BuildingRef;
         public int LevelRequired => _LevelRequired;
 
-
         public void AdjustCondition(int level = 0)
         {
             _LevelRequired = Mathf.FloorToInt(_LevelRequiredBase * Mathf.Exp(level));
         }
     }
+
+    [Serializable]
+    public class Objective
+    {
+        [SerializeField]
+        protected int _AmountToReach = 1;
+
+        private int _Amount = 0;
+
+        public bool IncrementAmount()
+        {
+            _Amount++;
+
+            return _Amount >= _AmountToReach;
+        }
+
+        public void IncrementDifficulty(int i = 1)
+        {
+            _AmountToReach += i * 10;
+        }
+    }
+
 }
