@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using AgToolkit.AgToolkit.Core.Singleton;
+using TheFantasticIsland.Helper;
 using UnityEngine;
 
 namespace TheFantasticIsland.Manager
@@ -8,7 +9,7 @@ namespace TheFantasticIsland.Manager
     public class ResourceManager : Singleton<ResourceManager>
     {
         [SerializeField]
-        private Dictionary<Resource, int> _Wallet = new Dictionary<Resource, int>();
+        private ResourceIntDictionary _Wallet = null;
 
         public bool ChangeAmount(Resource r, int amount)
         {
@@ -26,7 +27,7 @@ namespace TheFantasticIsland.Manager
                 return false; // if the amount is a cost & there is not enough resource, return false
             }
 
-            _Wallet[r] = amount; 
+            _Wallet[r] = currentAmount; 
 
             return true;
         }
