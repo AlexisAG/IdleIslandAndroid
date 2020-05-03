@@ -1,4 +1,4 @@
-﻿namespace TheFantasticIsland
+﻿namespace TheFantasticIsland.Helper
 {
     public enum Resource
     {
@@ -13,7 +13,8 @@
     {
         None = 0,
         Productivity = 1,
-        Size = 2,
+        ProductivityCost = 2,
+        SizeCost = 3,
     }
 
     public enum GiftPropertiesType

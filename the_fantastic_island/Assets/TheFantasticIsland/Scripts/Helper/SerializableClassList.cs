@@ -1,9 +1,7 @@
 ﻿using System;
-using TheFantasticIsland;
 using TheFantasticIsland.DataScript;
 using UnityEngine;
-
-namespace TheFantasticIsland
+namespace TheFantasticIsland.Helper
 {
     [Serializable]
     public class ResourceModificator
@@ -90,5 +88,4 @@ namespace TheFantasticIsland
             _AmountToReach += i * 10;
         }
     }
-
 }
