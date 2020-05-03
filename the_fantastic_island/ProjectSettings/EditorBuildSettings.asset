@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/TheFantasticIsland/Scenes/RootScene.unity
+    guid: 93158ca3caab6d64a91007a99d26daa2
+  - enabled: 1
+    path: Assets/TheFantasticIsland/Scenes/MainScene.unity
+    guid: 610015644b4b1364ca4645c26b732f04
   m_configObjects: {}
