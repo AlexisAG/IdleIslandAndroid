@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Versioning;
+using TheFantasticIsland.Helper;
 using UnityEngine;
 
 namespace TheFantasticIsland.DataScript

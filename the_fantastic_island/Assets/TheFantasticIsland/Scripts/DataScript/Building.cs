@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TheFantasticIsland.Helper;
+using UnityEngine;
 
 namespace TheFantasticIsland.DataScript
 {
@@ -10,22 +11,25 @@ namespace TheFantasticIsland.DataScript
         [SerializeField]
         private string _Description = null;
         [SerializeField]
-        private ResourceModificator _ResourceProduction = null;
+        private float _TimeToProduct = 5f;
         [SerializeField]
-        private ResourceModificator _IncreaseSizeCost = null;
+        private ResourceModificator _ResourceProduction = null;
         [SerializeField]
         private ResourceModificator _Cost = null;
         [SerializeField]
-        private BuildingBonus _SizeBonus = null;
+        private ResourceModificator _IncreaseSizeCost = null;
         [SerializeField]
         private GameObject _BuildingPrefab = null;
+        [SerializeField]
+        private GameObject _WorkerPrefab = null;
 
         public string Id => _Id;
         public string Description => _Description;
+        public float TimeToProduct => _TimeToProduct;
         public ResourceModificator ResourceProduction => _ResourceProduction;
         public ResourceModificator IncreaseSizeCost => _IncreaseSizeCost;
         public ResourceModificator Cost => _Cost;
-        public BuildingBonus SizeBonus => _SizeBonus;
         public GameObject BuildingPrefab => _BuildingPrefab;
+        public GameObject WorkerPrefab => _WorkerPrefab;
     }
 }

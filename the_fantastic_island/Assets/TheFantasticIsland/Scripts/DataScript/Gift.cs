@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TheFantasticIsland.Helper;
+using UnityEngine;
 
 namespace TheFantasticIsland.DataScript
 {
