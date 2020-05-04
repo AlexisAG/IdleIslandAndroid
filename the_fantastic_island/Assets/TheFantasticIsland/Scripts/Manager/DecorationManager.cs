@@ -4,6 +4,7 @@ using AgToolkit.AgToolkit.Core.BackupSystem;
 using AgToolkit.AgToolkit.Core.Singleton;
 using AgToolkit.Core.Pool;
 using TheFantasticIsland.DataScript;
+using TheFantasticIsland.Helper;
 using UnityEngine;
 
 namespace TheFantasticIsland.Manager
