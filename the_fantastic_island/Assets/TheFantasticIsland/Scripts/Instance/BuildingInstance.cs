@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using AgToolkit.AgToolkit.Core.Timer;
+using AgToolkit.Core.Helper;
+using AgToolkit.Core.Helper.Events;
 using TheFantasticIsland.DataScript;
 using TheFantasticIsland.Helper;
 using TheFantasticIsland.Manager;
@@ -14,10 +14,24 @@ namespace TheFantasticIsland.Instance
     {
         private Building _BuildingRef = null;
         private Timer _Timer = null;
+        private Dictionary<BuildingPropertiesType, GameEventTrigger> _GameEventTriggers = new Dictionary<BuildingPropertiesType, GameEventTrigger>();
 
         public int ProductionLevel { get; private set; }
         public int SizeLevel { get; private set; }
         public float ProductionPerSecond { get; private set; }
+
+        private void SetupGameEventListeners()
+        {
+            foreach (BuildingAction a in _BuildingRef.BuildingActions)
+            {
+                GameEventTrigger trigger = gameObject.AddComponent<GameEventTrigger>();
+                BuildingActionGameVar gameVar = new BuildingActionGameVar {Value = a};
+                GameEvent gameEvent = (GameEvent)TaskManager.Instance.BuildingActionGameEventListener.Event;
+
+                trigger.Init(gameEvent, gameVar);
+                _GameEventTriggers.Add(a.BuildingProperties, trigger);
+            }
+        }
 
         private void Product()
         {
@@ -43,7 +57,7 @@ namespace TheFantasticIsland.Instance
             _BuildingRef = building;
             ProductionLevel = production;
             SizeLevel = size;
-
+            SetupGameEventListeners();
             _Timer = new Timer(_BuildingRef.Id, _BuildingRef.TimeToProduct, new UnityEvent());
             _Timer.Event.AddListener(Product);
             TimerManager.Instance.StartTimer(_Timer);
@@ -53,12 +67,16 @@ namespace TheFantasticIsland.Instance
         {
             ProductionLevel++;
             //todo add new worker
+
+            _GameEventTriggers[BuildingPropertiesType.ProductivityCost].Trigger();
         }
 
         public void IncreaseSize()
         {
             SizeLevel++;
             //todo display new environment
+
+            _GameEventTriggers[BuildingPropertiesType.SizeCost].Trigger();
         }
 
     }
