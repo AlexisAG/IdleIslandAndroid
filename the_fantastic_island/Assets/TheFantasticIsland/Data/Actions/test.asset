@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: test
+  m_EditorClassIdentifier: TheFantasticIsland:TheFantasticIsland.DataScript:BuildingAction
+  _Id: test
+  _Description: Action test
+  _BuildingRef: {fileID: 11400000, guid: 1a74e4070f7bef54f85956b2195d0ee5, type: 2}
+  _BuildingPropertiesType: 2

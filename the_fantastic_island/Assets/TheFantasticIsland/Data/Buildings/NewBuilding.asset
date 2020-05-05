@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 635b9bfde72b2d8408db63874b3e8e7f, type: 3}
+  m_Name: NewBuilding
+  m_EditorClassIdentifier: 
+  _Id: test
+  _Description: Building test
+  _TimeToProduct: 3
+  _ResourceProduction:
+    _Type: 1
+    _Resource: 1
+    _BaseAmount: 250
+  _Cost:
+    _Type: 2
+    _Resource: 1
+    _BaseAmount: 500
+  _IncreaseSizeCost:
+    _Type: 2
+    _Resource: 1
+    _BaseAmount: 750
+  _BuildingPrefab: {fileID: 6333024535839953266, guid: 2d60bc4d7cc6b174ca03a983c0b64622,
+    type: 3}
+  _WorkerPrefab: {fileID: 0}
+  _BuildingActions:
+  - {fileID: 11400000, guid: 8f5fd7b4560b6e240b398856f0b8b3ce, type: 2}
+  - {fileID: 11400000, guid: 2aad62d13f0fee846a9532cef592fe5f, type: 2}
