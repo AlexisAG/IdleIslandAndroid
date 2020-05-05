@@ -1,4 +1,5 @@
-﻿using TheFantasticIsland.Helper;
+﻿using System.Collections.Generic;
+using TheFantasticIsland.Helper;
 using UnityEngine;
 
 namespace TheFantasticIsland.DataScript
@@ -22,6 +23,8 @@ namespace TheFantasticIsland.DataScript
         private GameObject _BuildingPrefab = null;
         [SerializeField]
         private GameObject _WorkerPrefab = null;
+        [SerializeField]
+        private List<BuildingAction> _BuildingActions = new List<BuildingAction>();
 
         public string Id => _Id;
         public string Description => _Description;
@@ -31,5 +34,6 @@ namespace TheFantasticIsland.DataScript
         public ResourceModificator Cost => _Cost;
         public GameObject BuildingPrefab => _BuildingPrefab;
         public GameObject WorkerPrefab => _WorkerPrefab;
+        public List<BuildingAction> BuildingActions => _BuildingActions;
     }
 }
