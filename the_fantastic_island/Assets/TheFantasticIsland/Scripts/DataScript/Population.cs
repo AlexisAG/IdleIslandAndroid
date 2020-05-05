@@ -26,13 +26,13 @@ namespace TheFantasticIsland.DataScript
         public GameObject Prefab => _Prefab;
     }
 
-    [CreateAssetMenu(menuName = "Population/Human", fileName = "NewHuman")]
+    [CreateAssetMenu(menuName = "TheFantasticIsland/Population/Human", fileName = "NewHuman")]
     public class Human : Population
     {
 
     }
 
-    [CreateAssetMenu(menuName = "Population/Animal", fileName = "NewAnimal")]
+    [CreateAssetMenu(menuName = "TheFantasticIsland/Population/Animal", fileName = "NewAnimal")]
     public class Animal : Population
     {
         [SerializeField]

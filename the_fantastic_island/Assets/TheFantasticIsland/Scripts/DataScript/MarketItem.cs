@@ -7,13 +7,13 @@ namespace TheFantasticIsland.DataScript
 
     }
 
-    [CreateAssetMenu(menuName = "MarketItem/Bonus", fileName = "NewBonusItem")]
+    [CreateAssetMenu(menuName = "TheFantasticIsland/MarketItem/Bonus", fileName = "NewBonusItem")]
     public class BonusItem : MarketItem
     {
 
     }
 
-    [CreateAssetMenu(menuName = "MarketItem/Resource", fileName = "NewResourceItem")]
+    [CreateAssetMenu(menuName = "TheFantasticIsland/MarketItem/Resource", fileName = "NewResourceItem")]
     public class ResourceItem : MarketItem
     {
 

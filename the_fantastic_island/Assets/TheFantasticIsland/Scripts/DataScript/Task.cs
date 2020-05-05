@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace TheFantasticIsland.DataScript
 {
-    [CreateAssetMenu(menuName = "Task", fileName = "NewTask")]
+    [CreateAssetMenu(menuName = "TheFantasticIsland/Task", fileName = "NewTask")]
     public class Task : ScriptableObject
     {
         [SerializeField]

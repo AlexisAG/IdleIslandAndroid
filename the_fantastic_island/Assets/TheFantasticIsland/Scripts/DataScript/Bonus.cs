@@ -17,7 +17,7 @@ namespace TheFantasticIsland.DataScript
         public float BonusCoef => _BonusCoef;
     }
 
-    [CreateAssetMenu(menuName = "Bonus/Building", fileName = "NewBuildingBonus")]
+    [CreateAssetMenu(menuName = "TheFantasticIsland/Bonus/Building", fileName = "NewBuildingBonus")]
     public class BuildingBonus : Bonus
     {
         [SerializeField]
@@ -29,7 +29,7 @@ namespace TheFantasticIsland.DataScript
         public BuildingPropertiesType BuildingProperties => _BuildingProperties;
     }
 
-    [CreateAssetMenu(menuName = "Bonus/Gift", fileName = "NewGiftBonus")]
+    [CreateAssetMenu(menuName = "TheFantasticIsland/Bonus/Gift", fileName = "NewGiftBonus")]
     public class GiftBonus : Bonus
     {
         [SerializeField]
@@ -41,7 +41,7 @@ namespace TheFantasticIsland.DataScript
         public GiftPropertiesType GiftProperty => _GiftProperties;
     }
 
-    [CreateAssetMenu(menuName = "Bonus/Resource", fileName = "NewResourceBonus")]
+    [CreateAssetMenu(menuName = "TheFantasticIsland/Bonus/Resource", fileName = "NewResourceBonus")]
     public class ResourceBonus : Bonus
     {
         [SerializeField]

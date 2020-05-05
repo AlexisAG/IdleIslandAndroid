@@ -14,7 +14,7 @@ namespace TheFantasticIsland.DataScript
         public string Description => _Description;
     }
 
-    [CreateAssetMenu(menuName = "Action/Building", fileName = "NewBuildingAction")]
+    [CreateAssetMenu(menuName = "TheFantasticIsland/Action/Building", fileName = "NewBuildingAction")]
     public class BuildingAction : Action
     {
         [SerializeField]
@@ -26,7 +26,7 @@ namespace TheFantasticIsland.DataScript
         public BuildingPropertiesType BuildingProperties => _BuildingPropertiesType;
     }
 
-    [CreateAssetMenu(menuName = "Action/Population", fileName = "NewPopulationAction")]
+    [CreateAssetMenu(menuName = "TheFantasticIsland/Action/Population", fileName = "NewPopulationAction")]
     public class PopulationAction : Action
     {
         [SerializeField]
@@ -35,7 +35,7 @@ namespace TheFantasticIsland.DataScript
         public Population PopulationRef => _PopulationRef;
     }
 
-    [CreateAssetMenu(menuName = "Action/Gift", fileName = "NewGiftAction")]
+    [CreateAssetMenu(menuName = "TheFantasticIsland/Action/Gift", fileName = "NewGiftAction")]
     public class GiftAction : Action
     {
         [SerializeField]

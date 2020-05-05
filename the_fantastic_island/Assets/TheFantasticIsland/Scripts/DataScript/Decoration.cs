@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TheFantasticIsland.DataScript
 {
-    [CreateAssetMenu(menuName = "Decoration", fileName = "NewDecoration")]
+    [CreateAssetMenu(menuName = "TheFantasticIsland/Decoration", fileName = "NewDecoration")]
     public class Decoration : ScriptableObject
     {
         [SerializeField]
