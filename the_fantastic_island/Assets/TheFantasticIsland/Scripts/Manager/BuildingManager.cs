@@ -14,7 +14,7 @@ namespace TheFantasticIsland.Manager
     {
         [SerializeField]
         private List<Building> _Buildings = new List<Building>();
-
+        
         private Dictionary<Building, BuildingInstance> _BuildingInstances = new Dictionary<Building, BuildingInstance>();
 
         public void SetupInterface()
