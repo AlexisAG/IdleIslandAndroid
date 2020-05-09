@@ -45,7 +45,8 @@ namespace TheFantasticIsland.Manager
                 Debug.Assert(false, $"Building may have a {ResourceModificatorType.Cost} and not a {b.Cost.Type} (ResourceModificatorType)");
                 return;
             }
-            if (!ResourceManager.Instance.ChangeAmount(b.Cost.Resource, b.Cost.Amount)) return;
+
+            if (!ResourceManager.Instance.ChangeAmount(b.Cost.Resource, b.Cost.Type, b.Cost.Amount)) return;
 
             BuildingInstance instance = Instantiate(b.BuildingPrefab).GetComponent<BuildingInstance>();
             instance.Init(b);
@@ -59,17 +60,21 @@ namespace TheFantasticIsland.Manager
             if (!_BuildingInstances.ContainsKey(b)) {
                 return;
             }
+
             if (b.Cost.Type != ResourceModificatorType.Cost) {
                 Debug.Assert(false, $"Building may have a {ResourceModificatorType.Cost} and not a {b.Cost.Type} (ResourceModificatorType)");
                 return;
             }
 
+            Dictionary<BuildingPropertiesType, float> bonuses = BonusManager.Instance.GetBonuses(b);
+            float productionCostBonus = bonuses.ContainsKey(BuildingPropertiesType.ProductivityCost) ? bonuses[BuildingPropertiesType.ProductivityCost] : 0f;
+
             // adjust amount
             b.Cost.AdjustAmount(_BuildingInstances[b].ProductionLevel);
             float amount = b.Cost.Amount;
-            amount += b.Cost.Amount * BonusManager.Instance.GetBonuses(b)[BuildingPropertiesType.ProductivityCost];
+            amount += b.Cost.Amount * productionCostBonus;
 
-            if (!ResourceManager.Instance.ChangeAmount(b.Cost.Resource, Mathf.FloorToInt(amount))) return;
+            if (!ResourceManager.Instance.ChangeAmount(b.Cost.Resource, b.Cost.Type,Mathf.FloorToInt(amount))) return;
 
             _BuildingInstances[b].IncreaseProduction();
         }
@@ -84,12 +89,15 @@ namespace TheFantasticIsland.Manager
                 return;
             }
 
+            Dictionary<BuildingPropertiesType, float> bonuses = BonusManager.Instance.GetBonuses(b);
+            float sizeCostBonus = bonuses.ContainsKey(BuildingPropertiesType.SizeCost) ? bonuses[BuildingPropertiesType.SizeCost] : 0f;
+
             // adjust amount
             b.IncreaseSizeCost.AdjustAmount(_BuildingInstances[b].SizeLevel);
             float amount = b.IncreaseSizeCost.Amount;
-            amount += b.IncreaseSizeCost.Amount * BonusManager.Instance.GetBonuses(b)[BuildingPropertiesType.SizeCost];
+            amount += b.IncreaseSizeCost.Amount * sizeCostBonus;
 
-            if (!ResourceManager.Instance.ChangeAmount(b.IncreaseSizeCost.Resource, Mathf.FloorToInt(amount))) return;
+            if (!ResourceManager.Instance.ChangeAmount(b.IncreaseSizeCost.Resource, b.IncreaseSizeCost.Type, Mathf.FloorToInt(amount))) return;
 
             _BuildingInstances[b].IncreaseSize();
         }

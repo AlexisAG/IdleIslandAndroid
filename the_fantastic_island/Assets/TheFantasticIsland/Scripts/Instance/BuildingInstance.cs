@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AgToolkit.AgToolkit.Core.Timer;
 using AgToolkit.Core.Helper;
 using AgToolkit.Core.Helper.Events;
@@ -19,6 +20,14 @@ namespace TheFantasticIsland.Instance
         public int ProductionLevel { get; private set; }
         public int SizeLevel { get; private set; }
         public float ProductionPerSecond { get; private set; }
+
+        private void OnApplicationQuit()
+        {
+            // Reset value | Todo: maybe useless when Save System will be implemented
+            _BuildingRef.ResourceProduction.AdjustAmount();
+            _BuildingRef.Cost.AdjustAmount();
+            _BuildingRef.IncreaseSizeCost.AdjustAmount();
+        }
 
         private void SetupGameEventListeners()
         {
@@ -48,7 +57,7 @@ namespace TheFantasticIsland.Instance
 
             ProductionPerSecond = amount / _BuildingRef.TimeToProduct;
 
-            ResourceManager.Instance.ChangeAmount(_BuildingRef.ResourceProduction.Resource, Mathf.FloorToInt(amount));
+            ResourceManager.Instance.ChangeAmount(_BuildingRef.ResourceProduction.Resource, _BuildingRef.ResourceProduction.Type, Mathf.FloorToInt(amount));
             TimerManager.Instance.StartTimer(_Timer);
         }
 
@@ -69,6 +78,7 @@ namespace TheFantasticIsland.Instance
             //todo add new worker
 
             _GameEventTriggers[BuildingPropertiesType.ProductivityCost].Trigger();
+            _BuildingRef.Cost.AdjustAmount(ProductionLevel);
         }
 
         public void IncreaseSize()
@@ -77,6 +87,7 @@ namespace TheFantasticIsland.Instance
             //todo display new environment
 
             _GameEventTriggers[BuildingPropertiesType.SizeCost].Trigger();
+            _BuildingRef.IncreaseSizeCost.AdjustAmount(SizeLevel);
         }
 
     }
