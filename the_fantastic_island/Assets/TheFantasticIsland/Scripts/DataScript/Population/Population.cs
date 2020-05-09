@@ -25,19 +25,4 @@ namespace TheFantasticIsland.DataScript
         public ResourceModificator Cost => _Cost;
         public GameObject Prefab => _Prefab;
     }
-
-    [CreateAssetMenu(menuName = "TheFantasticIsland/Population/Human", fileName = "NewHuman")]
-    public class Human : Population
-    {
-
-    }
-
-    [CreateAssetMenu(menuName = "TheFantasticIsland/Population/Animal", fileName = "NewAnimal")]
-    public class Animal : Population
-    {
-        [SerializeField]
-        private Condition _Condition = null;
-
-        public Condition Condition => _Condition;
-    }
 }
