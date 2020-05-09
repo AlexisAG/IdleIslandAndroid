@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: NewBuildingAction
-  m_EditorClassIdentifier: TheFantasticIsland:TheFantasticIsland.DataScript:BuildingAction
-  _Id: test propertiy 2
-  _Description: Action on property 2 test
+  m_Script: {fileID: 11500000, guid: 772150b07aa74c4d9ae6d8cf4c3b8b50, type: 3}
+  m_Name: TestProductivityCostAction
+  m_EditorClassIdentifier: 
+  _Id: TestActionPC
+  _Description: 
   _BuildingRef: {fileID: 11400000, guid: 1a74e4070f7bef54f85956b2195d0ee5, type: 2}
-  _BuildingPropertiesType: 3
+  _BuildingPropertiesType: 2
