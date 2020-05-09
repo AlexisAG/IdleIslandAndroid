@@ -22,23 +22,9 @@ namespace TheFantasticIsland.Helper
         public void AdjustAmount(int level = 0)
         {
             _Amount = Mathf.FloorToInt(_BaseAmount * Mathf.Exp(level));
-
-            switch (_Type) {
-                case ResourceModificatorType.Reward:
-                    if (_Amount < 0)
-                    {
-                        _Amount = -_Amount;
-                    }
-                    break;
-                case ResourceModificatorType.Cost:
-                    if (_Amount > 0)
-                    {
-                        _Amount = -_Amount;
-                    }
-                    break;
-                default:
-                    Debug.Assert(false, $"ResourceModificator Type is not implemented for {_Type}");
-                    break;
+            if (Amount < 0)
+            {
+                _Amount = -Amount;
             }
         }
     }
