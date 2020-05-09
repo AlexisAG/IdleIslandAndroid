@@ -53,7 +53,7 @@ namespace TheFantasticIsland.Manager
 
             d.Cost.AdjustAmount(_Wallets[d]); // adjust price for the decoration (security)
 
-            if (!ResourceManager.Instance.ChangeAmount(d.Cost.Resource, d.Cost.Amount)) return; // if there is not enough Resource, return
+            if (!ResourceManager.Instance.ChangeAmount(d.Cost.Resource, d.Cost.Type, d.Cost.Amount)) return; // if there is not enough Resource, return
 
             _Wallets[d] += 1;
             _DecoAvailable[d] += 1;

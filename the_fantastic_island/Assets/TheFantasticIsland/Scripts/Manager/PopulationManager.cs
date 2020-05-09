@@ -47,7 +47,7 @@ namespace TheFantasticIsland.Manager
 
             p.Cost.AdjustAmount(_Wallet[p]); // adjust price for the decoration (security)
 
-            if (!ResourceManager.Instance.ChangeAmount(p.Cost.Resource, p.Cost.Amount)) return;
+            if (!ResourceManager.Instance.ChangeAmount(p.Cost.Resource, p.Cost.Type, p.Cost.Amount)) return;
 
 
             PopulationInstance pop =  Instantiate(p.Prefab).GetComponent<PopulationInstance>();

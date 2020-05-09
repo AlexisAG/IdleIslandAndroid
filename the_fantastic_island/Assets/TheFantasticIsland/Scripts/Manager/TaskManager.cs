@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AgToolkit.AgToolkit.Core.BackupSystem;
@@ -16,16 +17,10 @@ namespace TheFantasticIsland.Manager
         private List<Task> _Missions = new List<Task>();
         [SerializeField]
         private List<Task> _Success = new List<Task>();
-        [SerializeField]
-        private BuildingActionGameEvent _BuildingActionGameEvent = null;
-        [SerializeField]
-        private PopulationActionGameEvent _PopulationActionGameEvent = null;
-        [SerializeField]
-        private GiftActionGameEvent _GiftActionGameEvent = null;
 
         private int _CurrentMissionLevel = 0;
         private Task _CurrentMission = null;
-        private Dictionary<Task, int> _SuccessLevel = new Dictionary<Task, int>();
+        private readonly Dictionary<Task, int> _SuccessLevel = new Dictionary<Task, int>();
 
         public BuildingActionGameEventListener BuildingActionGameEventListener { get; private set; }
         public PopulationActionGameEventListener PopulationActionGameEventListener { get; private set; }
@@ -48,10 +43,15 @@ namespace TheFantasticIsland.Manager
             PopulationActionGameEventListener = gameObject.AddComponent<PopulationActionGameEventListener>();
             GiftActionGameEventListener = gameObject.AddComponent<GiftActionGameEventListener>();
             
+            // Init GameEventListener & Create GameEvent
+            BuildingActionGameEventListener.Init(ScriptableObject.CreateInstance<BuildingActionGameEvent>(), buildingActionUnityEvent);
+            PopulationActionGameEventListener.Init(ScriptableObject.CreateInstance<PopulationActionGameEvent>(), populationActionUnityEvent);
+            GiftActionGameEventListener.Init(ScriptableObject.CreateInstance<GiftActionGameEvent>(), giftActionUnityEvent);
 
-            BuildingActionGameEventListener.Init(_BuildingActionGameEvent, buildingActionUnityEvent);
-            PopulationActionGameEventListener.Init(_PopulationActionGameEvent, populationActionUnityEvent);
-            GiftActionGameEventListener.Init(_GiftActionGameEvent, giftActionUnityEvent);
+            // Register the listeners
+            BuildingActionGameEventListener.Event.RegisterListener(BuildingActionGameEventListener);
+            PopulationActionGameEventListener.Event.RegisterListener(PopulationActionGameEventListener);
+            GiftActionGameEventListener.Event.RegisterListener(GiftActionGameEventListener);
 
             _CurrentMission = _Missions[0];
 
@@ -89,6 +89,7 @@ namespace TheFantasticIsland.Manager
 
             CashRewards(_CurrentMission.Rewards, _CurrentMissionLevel);
             NextMission();
+            Debug.LogWarning("CASH REWARD");
         }
         private void ActionExecuted(GiftAction a) 
         {
@@ -148,7 +149,7 @@ namespace TheFantasticIsland.Manager
 
             index++;
 
-            if (index > _Missions.Count)
+            if (index >= _Missions.Count)
             {
                 _CurrentMission = _Missions[0];
                 _CurrentMissionLevel++;
@@ -165,7 +166,7 @@ namespace TheFantasticIsland.Manager
             foreach (ResourceModificator reward in rm)
             {
                 reward.AdjustAmount(level);
-                ResourceManager.Instance.ChangeAmount(reward.Resource, reward.Amount);
+                ResourceManager.Instance.ChangeAmount(reward.Resource, reward.Type, reward.Amount);
             }
         }
 

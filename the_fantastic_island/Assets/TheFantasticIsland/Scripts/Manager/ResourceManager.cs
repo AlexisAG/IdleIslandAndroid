@@ -11,17 +11,19 @@ namespace TheFantasticIsland.Manager
         [SerializeField]
         private ResourceIntDictionary _Wallet = null;
 
-        public bool ChangeAmount(Resource r, int amount)
+        public bool ChangeAmount(Resource r, ResourceModificatorType type, int amount)
         {
-            int currentAmount = _Wallet[r];
 
-            if (currentAmount <= 0)
+            switch (type)
             {
-                return false; // if no amount of this resource, return false
+                case ResourceModificatorType.Cost when amount > 0:
+                case ResourceModificatorType.Reward when amount < 0:
+                    amount = -amount;
+                    break;
             }
 
-            currentAmount += amount;
-
+            int currentAmount = _Wallet[r] + amount;
+            
             if (currentAmount < 0)
             {
                 return false; // if the amount is a cost & there is not enough resource, return false
