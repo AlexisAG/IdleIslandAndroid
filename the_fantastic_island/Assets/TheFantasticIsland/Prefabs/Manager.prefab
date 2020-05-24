@@ -90,8 +90,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4d9f2de0d186264f95c82658d2b2a9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Buildings:
-  - {fileID: 11400000, guid: 1a74e4070f7bef54f85956b2195d0ee5, type: 2}
+  _Buildings: []
+  _BundleName: buildings
 --- !u!114 &1227498770472835849
 MonoBehaviour:
   m_ObjectHideFlags: 0
