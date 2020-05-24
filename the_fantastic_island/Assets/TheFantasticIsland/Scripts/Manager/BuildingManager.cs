@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using AgToolkit.AgToolkit.Core.BackupSystem;
+using AgToolkit.AgToolkit.Core.DataSystem;
 using AgToolkit.AgToolkit.Core.Singleton;
+using AgToolkit.Core.Helper;
 using TheFantasticIsland.DataScript;
 using TheFantasticIsland.Helper;
 using TheFantasticIsland.Instance;
@@ -14,12 +15,19 @@ namespace TheFantasticIsland.Manager
     {
         [SerializeField]
         private List<Building> _Buildings = new List<Building>();
-        
+        [SerializeField]
+        private string _BundleName = "";
+
         private Dictionary<Building, BuildingInstance> _BuildingInstances = new Dictionary<Building, BuildingInstance>();
 
-        public void SetupInterface()
+        private void SetupInterface()
         {
             // todo:
+        }
+
+        private void Start()
+        {
+            CoroutineManager.Instance.StartCoroutine(Load());
         }
 
         public IEnumerator Save()
@@ -30,8 +38,10 @@ namespace TheFantasticIsland.Manager
 
         public IEnumerator Load()
         {
-            //todo
-            throw new System.NotImplementedException();
+            //Load buildings list from bundle
+            yield return DataSystem.Instance.LoadLocalBundleAsync<Building>(_BundleName, data => _Buildings = data);
+
+            //todo: Load player progression saved
         }
 
         public void BuyBuilding(Building b)
@@ -113,11 +123,6 @@ namespace TheFantasticIsland.Manager
             }
 
             return Mathf.FloorToInt(amount);
-        }
-
-        private void Start()
-        {
-            BuyBuilding(_Buildings[0]); //todo delete this
         }
     }
 }
