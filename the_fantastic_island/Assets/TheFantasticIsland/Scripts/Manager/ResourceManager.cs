@@ -8,9 +8,12 @@ namespace TheFantasticIsland.Manager
 {
     public class ResourceManager : Singleton<ResourceManager>
     {
+#if UNITY_EDITOR
         [SerializeField]
         private ResourceIntDictionary _Wallet = null;
-
+#else
+        private Dictionary<Resource, int> _Wallet = new Dictionary<Resource, int>();
+#endif
         public bool ChangeAmount(Resource r, ResourceModificatorType type, int amount)
         {
 

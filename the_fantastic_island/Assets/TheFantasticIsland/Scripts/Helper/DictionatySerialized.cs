@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿#if UNITY_EDITOR
+using System;
 using AgToolkit.Core.Helper.Drawer;
 using AgToolkit.Core.Helper.Serialization;
 using UnityEditor;
-using UnityEngine;
 
 namespace TheFantasticIsland.Helper
 {
@@ -19,4 +17,4 @@ namespace TheFantasticIsland.Helper
 
     }
 }
-    
+#endif
