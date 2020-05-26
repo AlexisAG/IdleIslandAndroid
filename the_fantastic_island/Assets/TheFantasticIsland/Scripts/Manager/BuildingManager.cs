@@ -25,6 +25,11 @@ namespace TheFantasticIsland.Manager
             // todo:
         }
 
+        private void Update() //TODO DELETE THIS
+        {
+            Debug.Log(GetTotalProductionPerSecond(Resource.Gold));
+        }
+
         private void Start()
         {
             CoroutineManager.Instance.StartCoroutine(Load());
@@ -39,7 +44,8 @@ namespace TheFantasticIsland.Manager
         public IEnumerator Load()
         {
             //Load buildings list from bundle
-            yield return DataSystem.Instance.LoadLocalBundleAsync<Building>(_BundleName, data => _Buildings = data);
+            yield return DataSystemManager.Instance.LoadLocalBundleAsync<Building>(_BundleName, data => _Buildings = data);
+            BuyBuilding(_Buildings[0]); // TODO DELETE THIS
 
             //todo: Load player progression saved
         }
@@ -51,12 +57,8 @@ namespace TheFantasticIsland.Manager
                 IncreaseBuildingProduction(b);
                 return;
             }
-            if (b.Cost.Type != ResourceModificatorType.Cost) {
-                Debug.Assert(false, $"Building may have a {ResourceModificatorType.Cost} and not a {b.Cost.Type} (ResourceModificatorType)");
-                return;
-            }
 
-            if (!ResourceManager.Instance.ChangeAmount(b.Cost.Resource, b.Cost.Type, b.Cost.Amount)) return;
+            if (!ResourceManager.Instance.ChangeAmount(b.Resource, ResourceModificatorType.Cost, b.Cost)) return;
 
             BuildingInstance instance = Instantiate(b.BuildingPrefab).GetComponent<BuildingInstance>();
             instance.Init(b);
@@ -71,8 +73,8 @@ namespace TheFantasticIsland.Manager
                 return;
             }
 
-            if (b.Cost.Type != ResourceModificatorType.Cost) {
-                Debug.Assert(false, $"Building may have a {ResourceModificatorType.Cost} and not a {b.Cost.Type} (ResourceModificatorType)");
+            if (_BuildingInstances[b].Cost.Type != ResourceModificatorType.Cost) {
+                Debug.Assert(false, $"Building may have a {ResourceModificatorType.Cost} and not a {_BuildingInstances[b].Cost.Type} (ResourceModificatorType)");
                 return;
             }
 
@@ -80,19 +82,19 @@ namespace TheFantasticIsland.Manager
             float productionCostBonus = bonuses.ContainsKey(BuildingPropertiesType.ProductivityCost) ? bonuses[BuildingPropertiesType.ProductivityCost] : 0f;
 
             // adjust amount
-            b.Cost.AdjustAmount(_BuildingInstances[b].ProductionLevel);
-            float amount = b.Cost.Amount;
-            amount += b.Cost.Amount * productionCostBonus;
+            _BuildingInstances[b].Cost.AdjustAmount(_BuildingInstances[b].ProductionLevel);
+            float amount = _BuildingInstances[b].Cost.Amount;
+            amount += _BuildingInstances[b].Cost.Amount * productionCostBonus;
 
-            if (!ResourceManager.Instance.ChangeAmount(b.Cost.Resource, b.Cost.Type,Mathf.FloorToInt(amount))) return;
+            if (!ResourceManager.Instance.ChangeAmount(_BuildingInstances[b].Cost.Resource, _BuildingInstances[b].Cost.Type,Mathf.FloorToInt(amount))) return;
 
             _BuildingInstances[b].IncreaseProduction();
         }
 
         public void IncreaseBuildingSize(Building b)
         {
-            if (b.IncreaseSizeCost.Type != ResourceModificatorType.Cost) {
-                Debug.Assert(false, $"Building may have a {ResourceModificatorType.Cost} and not a {b.Cost.Type} (ResourceModificatorType)");
+            if (_BuildingInstances[b].IncreaseSizeCost.Type != ResourceModificatorType.Cost) {
+                Debug.Assert(false, $"Building may have a {ResourceModificatorType.Cost} and not a {_BuildingInstances[b].Cost.Type} (ResourceModificatorType)");
                 return;
             }
             if (!_BuildingInstances.ContainsKey(b)) {
@@ -103,11 +105,11 @@ namespace TheFantasticIsland.Manager
             float sizeCostBonus = bonuses.ContainsKey(BuildingPropertiesType.SizeCost) ? bonuses[BuildingPropertiesType.SizeCost] : 0f;
 
             // adjust amount
-            b.IncreaseSizeCost.AdjustAmount(_BuildingInstances[b].SizeLevel);
-            float amount = b.IncreaseSizeCost.Amount;
-            amount += b.IncreaseSizeCost.Amount * sizeCostBonus;
+            _BuildingInstances[b].IncreaseSizeCost.AdjustAmount(_BuildingInstances[b].SizeLevel);
+            float amount = _BuildingInstances[b].IncreaseSizeCost.Amount;
+            amount += _BuildingInstances[b].IncreaseSizeCost.Amount * sizeCostBonus;
 
-            if (!ResourceManager.Instance.ChangeAmount(b.IncreaseSizeCost.Resource, b.IncreaseSizeCost.Type, Mathf.FloorToInt(amount))) return;
+            if (!ResourceManager.Instance.ChangeAmount(_BuildingInstances[b].IncreaseSizeCost.Resource, _BuildingInstances[b].IncreaseSizeCost.Type, Mathf.FloorToInt(amount))) return;
 
             _BuildingInstances[b].IncreaseSize();
         }
@@ -118,7 +120,7 @@ namespace TheFantasticIsland.Manager
 
             foreach (Building b in _BuildingInstances.Keys)
             {
-                if (b.ResourceProduction.Resource != r) continue;
+                if (_BuildingInstances[b].ResourceProduction.Resource != r) continue;
                 amount += _BuildingInstances[b].ProductionPerSecond;
             }
 

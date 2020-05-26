@@ -14,11 +14,13 @@ namespace TheFantasticIsland.DataScript
         [SerializeField]
         private float _TimeToProduct = 5f;
         [SerializeField]
-        private ResourceModificator _ResourceProduction = null;
+        private int _BaseProduction = 0;
         [SerializeField]
-        private ResourceModificator _Cost = null;
+        private int _Cost = 0;
         [SerializeField]
-        private ResourceModificator _IncreaseSizeCost = null;
+        private int _SizeCost = 0;
+        [SerializeField]
+        private Resource _Resource = Resource.Gold;
         [SerializeField]
         private GameObject _BuildingPrefab = null;
         [SerializeField]
@@ -29,9 +31,10 @@ namespace TheFantasticIsland.DataScript
         public string Id => _Id;
         public string Description => _Description;
         public float TimeToProduct => _TimeToProduct;
-        public ResourceModificator ResourceProduction => _ResourceProduction;
-        public ResourceModificator IncreaseSizeCost => _IncreaseSizeCost;
-        public ResourceModificator Cost => _Cost;
+        public int BaseProduction => _BaseProduction;
+        public int Cost => _Cost;
+        public int SizeCost => _SizeCost;
+        public Resource Resource => _Resource;
         public GameObject BuildingPrefab => _BuildingPrefab;
         public GameObject WorkerPrefab => _WorkerPrefab;
         public List<BuildingAction> BuildingActions => _BuildingActions;

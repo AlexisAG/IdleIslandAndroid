@@ -19,6 +19,13 @@ namespace TheFantasticIsland.Helper
         public Resource Resource => _Resource;
         public int Amount => _Amount;
 
+        public ResourceModificator(ResourceModificatorType type, Resource resource, int amount)
+        {
+            _Type = type;
+            _Resource = resource;
+            _BaseAmount = amount;
+        }
+
         public void AdjustAmount(int level = 0)
         {
             _Amount = Mathf.FloorToInt(_BaseAmount * Mathf.Exp(level));

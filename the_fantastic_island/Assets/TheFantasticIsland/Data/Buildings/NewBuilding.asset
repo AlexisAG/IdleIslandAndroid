@@ -15,18 +15,10 @@ MonoBehaviour:
   _Id: test
   _Description: Building test
   _TimeToProduct: 3
-  _ResourceProduction:
-    _Type: 1
-    _Resource: 1
-    _BaseAmount: 250
-  _Cost:
-    _Type: 2
-    _Resource: 1
-    _BaseAmount: 500
-  _IncreaseSizeCost:
-    _Type: 2
-    _Resource: 1
-    _BaseAmount: 750
+  _BaseProduction: 100
+  _Cost: 500
+  _SizeCost: 0
+  _Resource: 1
   _BuildingPrefab: {fileID: 6333024535839953266, guid: 2d60bc4d7cc6b174ca03a983c0b64622,
     type: 3}
   _WorkerPrefab: {fileID: 0}

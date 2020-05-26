@@ -13,20 +13,29 @@ namespace TheFantasticIsland.Instance
 {
     public class BuildingInstance : MonoBehaviour
     {
+        [SerializeField]
+        private ResourceModificator _ResourceProduction = null;
+        [SerializeField]
+        private ResourceModificator _Cost = null;
+        [SerializeField]
+        private ResourceModificator _IncreaseSizeCost = null;
+
         private Building _BuildingRef = null;
         private Timer _Timer = null;
         private Dictionary<BuildingPropertiesType, GameEventTrigger> _GameEventTriggers = new Dictionary<BuildingPropertiesType, GameEventTrigger>();
-
         public int ProductionLevel { get; private set; }
         public int SizeLevel { get; private set; }
         public float ProductionPerSecond { get; private set; }
+        public ResourceModificator ResourceProduction => _ResourceProduction;
+        public ResourceModificator IncreaseSizeCost => _IncreaseSizeCost;
+        public ResourceModificator Cost => _Cost;
 
         private void OnApplicationQuit()
         {
             // Reset value | Todo: maybe useless when Save System will be implemented
-            _BuildingRef.ResourceProduction.AdjustAmount();
-            _BuildingRef.Cost.AdjustAmount();
-            _BuildingRef.IncreaseSizeCost.AdjustAmount();
+            _ResourceProduction.AdjustAmount();
+            _Cost.AdjustAmount();
+            _IncreaseSizeCost.AdjustAmount();
         }
 
         private void SetupGameEventListeners()
@@ -36,7 +45,6 @@ namespace TheFantasticIsland.Instance
                 GameEventTrigger trigger = gameObject.AddComponent<GameEventTrigger>();
                 BuildingActionGameVar gameVar = new BuildingActionGameVar {Value = a};
                 GameEvent gameEvent = (GameEvent)TaskManager.Instance.BuildingActionGameEventListener.Event;
-
                 trigger.Init(gameEvent, gameVar);
                 _GameEventTriggers.Add(a.BuildingProperties, trigger);
             }
@@ -44,20 +52,20 @@ namespace TheFantasticIsland.Instance
 
         private void Product()
         {
-            _BuildingRef.ResourceProduction.AdjustAmount(ProductionLevel);
+            _ResourceProduction.AdjustAmount(ProductionLevel);
 
             Dictionary<BuildingPropertiesType, float> bonuses = BonusManager.Instance.GetBonuses(_BuildingRef);
 
-            float amount = _BuildingRef.ResourceProduction.Amount * (SizeLevel + 1);
+            float amount = _ResourceProduction.Amount * (SizeLevel + 1);
             float productivityBonus = bonuses.ContainsKey(BuildingPropertiesType.Productivity) ? bonuses[BuildingPropertiesType.Productivity] : 0f;
-            float resourceBonus = BonusManager.Instance.GetBonuses(_BuildingRef.ResourceProduction.Resource);
+            float resourceBonus = BonusManager.Instance.GetBonuses(_ResourceProduction.Resource);
 
-            amount += _BuildingRef.ResourceProduction.Amount * productivityBonus;
+            amount += _ResourceProduction.Amount * productivityBonus;
             amount += amount * resourceBonus;
 
             ProductionPerSecond = amount / _BuildingRef.TimeToProduct;
 
-            ResourceManager.Instance.ChangeAmount(_BuildingRef.ResourceProduction.Resource, _BuildingRef.ResourceProduction.Type, Mathf.FloorToInt(amount));
+            ResourceManager.Instance.ChangeAmount(_ResourceProduction.Resource, _ResourceProduction.Type, Mathf.FloorToInt(amount));
             TimerManager.Instance.StartTimer(_Timer);
         }
 
@@ -70,6 +78,10 @@ namespace TheFantasticIsland.Instance
             _Timer = new Timer(_BuildingRef.Id, _BuildingRef.TimeToProduct, new UnityEvent());
             _Timer.Event.AddListener(Product);
             TimerManager.Instance.StartTimer(_Timer);
+
+            _ResourceProduction = new ResourceModificator(ResourceModificatorType.Reward, _BuildingRef.Resource, _BuildingRef.BaseProduction);
+            _Cost = new ResourceModificator(ResourceModificatorType.Cost, _BuildingRef.Resource, _BuildingRef.Cost);
+            _IncreaseSizeCost = new ResourceModificator(ResourceModificatorType.Cost, _BuildingRef.Resource, _BuildingRef.SizeCost);
         }
 
         public void IncreaseProduction()
@@ -78,7 +90,6 @@ namespace TheFantasticIsland.Instance
             //todo add new worker
 
             _GameEventTriggers[BuildingPropertiesType.ProductivityCost].Trigger();
-            _BuildingRef.Cost.AdjustAmount(ProductionLevel);
         }
 
         public void IncreaseSize()
@@ -87,7 +98,6 @@ namespace TheFantasticIsland.Instance
             //todo display new environment
 
             _GameEventTriggers[BuildingPropertiesType.SizeCost].Trigger();
-            _BuildingRef.IncreaseSizeCost.AdjustAmount(SizeLevel);
         }
 
     }
