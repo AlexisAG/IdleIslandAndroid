@@ -1,8 +1,9 @@
-﻿#if UNITY_EDITOR
-using System;
-using AgToolkit.Core.Helper.Drawer;
+﻿using System;
 using AgToolkit.Core.Helper.Serialization;
 using UnityEditor;
+#if UNITY_EDITOR
+using AgToolkit.Core.Helper.Drawer;
+#endif
 
 namespace TheFantasticIsland.Helper
 {
@@ -11,10 +12,11 @@ namespace TheFantasticIsland.Helper
     {
     }
 
+#if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(ResourceIntDictionary))]
     public class ResourceIntDictionaryDrawer : SerializableDictionaryPropertyDrawer
     {
 
     }
-}
 #endif
+}
