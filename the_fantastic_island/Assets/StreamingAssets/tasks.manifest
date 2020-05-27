@@ -1,0 +1,21 @@
+ManifestFileVersion: 0
+CRC: 2959575254
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d69527399161fe0d059b79df12aeeed1
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 98d503867e6bbc3a4dbc27b6a1a6038d
+HashAppended: 0
+ClassTypes:
+- Class: 114
+  Script: {fileID: 11500000, guid: 772150b07aa74c4d9ae6d8cf4c3b8b50, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 460ab0886b2f7a04ab204995d80630dc, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+Assets:
+- Assets/TheFantasticIsland/Data/Tasks/Missions/Test.asset
+Dependencies:
+- D:/Prog/Unity/IdleIslandAndroid/the_fantastic_island/Assets/StreamingAssets/actions

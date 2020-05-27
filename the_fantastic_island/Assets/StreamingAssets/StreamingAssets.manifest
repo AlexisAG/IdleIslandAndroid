@@ -1,7 +1,16 @@
 ManifestFileVersion: 0
-CRC: 2169704526
+CRC: 869682610
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
       Name: buildings
-      Dependencies: {}
+      Dependencies:
+        Dependency_0: actions
+    Info_1:
+      Name: tasks
+      Dependencies:
+        Dependency_0: actions
+    Info_2:
+      Name: actions
+      Dependencies:
+        Dependency_0: buildings

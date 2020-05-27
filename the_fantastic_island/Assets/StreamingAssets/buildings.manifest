@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 515886397
+CRC: 1380887339
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: e112efee62bbf85669124313c1af0540
+    Hash: 61a81f64acbc90c109561345e837e595
   TypeTreeHash:
     serializedVersion: 2
-    Hash: a3f73153b436a53838a4792890421575
+    Hash: c9a28cf653ce2277a068eb97619ce3a4
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -35,4 +35,5 @@ ClassTypes:
   Script: {instanceID: 0}
 Assets:
 - Assets/TheFantasticIsland/Data/Buildings/NewBuilding.asset
-Dependencies: []
+Dependencies:
+- D:/Prog/Unity/IdleIslandAndroid/the_fantastic_island/Assets/StreamingAssets/actions
