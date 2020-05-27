@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using AgToolkit.AgToolkit.Core.DataSystem;
 using AgToolkit.AgToolkit.Core.Singleton;
@@ -23,11 +22,6 @@ namespace TheFantasticIsland.Manager
         private void SetupInterface()
         {
             // todo:
-        }
-
-        private void Update() //TODO DELETE THIS
-        {
-            Debug.Log(GetTotalProductionPerSecond(Resource.Gold));
         }
 
         private void Start()

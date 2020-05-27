@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using AgToolkit.AgToolkit.Core.DataSystem;
 using AgToolkit.AgToolkit.Core.Singleton;
 using TheFantasticIsland.DataScript;
 using TheFantasticIsland.Helper;
 using TheFantasticIsland.Instance;
 using UnityEngine;
-using UnityEngine.Analytics;
-using Action = TheFantasticIsland.DataScript.Action;
 
 namespace TheFantasticIsland.Manager
 {
