@@ -63,9 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cea4eeedaaede842ac7e45d0d42c3ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Missions:
-  - {fileID: 11400000, guid: 46e212e84293a7743b22a5462db6da0e, type: 2}
-  _Success: []
+  _BundleName: tasks
 --- !u!114 &8286318938055928028
 MonoBehaviour:
   m_ObjectHideFlags: 0
