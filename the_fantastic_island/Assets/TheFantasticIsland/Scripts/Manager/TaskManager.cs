@@ -6,21 +6,23 @@ using AgToolkit.AgToolkit.Core.DataSystem;
 using AgToolkit.AgToolkit.Core.Singleton;
 using TheFantasticIsland.DataScript;
 using TheFantasticIsland.Helper;
+using TheFantasticIsland.Instance;
 using UnityEngine;
 using UnityEngine.Analytics;
+using Action = TheFantasticIsland.DataScript.Action;
 
 namespace TheFantasticIsland.Manager
 {
     public class TaskManager : Singleton<TaskManager>, IBackup
     {
         [SerializeField]
-        private List<Task> _Missions = new List<Task>();
+        private string _BundleName = "";
         [SerializeField]
-        private List<Task> _Success = new List<Task>();
+        private List<TaskData> _Missions = new List<TaskData>();
+        [SerializeField]
+        private List<TaskData> _Success = new List<TaskData>();
 
-        private int _CurrentMissionLevel = 0;
-        private Task _CurrentMission = null;
-        private readonly Dictionary<Task, int> _SuccessLevel = new Dictionary<Task, int>();
+        private TaskData _CurrentMission = null;
 
         public BuildingActionGameEventListener BuildingActionGameEventListener { get; private set; }
         public PopulationActionGameEventListener PopulationActionGameEventListener { get; private set; }
@@ -52,92 +54,89 @@ namespace TheFantasticIsland.Manager
             BuildingActionGameEventListener.Event.RegisterListener(BuildingActionGameEventListener);
             PopulationActionGameEventListener.Event.RegisterListener(PopulationActionGameEventListener);
             GiftActionGameEventListener.Event.RegisterListener(GiftActionGameEventListener);
-
-            _CurrentMission = _Missions[0];
-
-            foreach (Task success in _Success)
-            {
-                _SuccessLevel.Add(success, 0);
-            }
         }
 
+        private void Start()
+        {
+            StartCoroutine(Load());
+        }
 
         private void ActionExecuted(BuildingAction a) {
 
-            foreach (Task task in _SuccessLevel.Keys) 
+            foreach (TaskData task in _Success) 
             {
 
                 // check if it's a success action
-                if (!(task.Action is BuildingAction action)) continue;
+                if (!(task.TaskRef.Action is BuildingAction action)) continue;
                 if (a.BuildingRef != action.BuildingRef) continue;
                 if (a.BuildingProperties != action.BuildingProperties) continue;
 
                 if (!task.Objective.IncrementAmount()) continue; //if success is not complete continue
 
-                CashRewards(task.Rewards, _SuccessLevel[task]);
+                CashRewards(task.Rewards, task.CurrentLevel);
 
                 task.Objective.IncrementDifficulty();
-                _SuccessLevel[task]++;
+                task.IncrementLevel();
             }
 
-            // check if it's a success action
-            if (!(_CurrentMission.Action is BuildingAction missionAction)) return;
+            // check if it's a mission action
+            if (!(_CurrentMission.TaskRef.Action is BuildingAction missionAction)) return;
             if (a.BuildingRef != missionAction.BuildingRef) return;
             if (a.BuildingProperties != missionAction.BuildingProperties) return;
 
             if (!_CurrentMission.Objective.IncrementAmount()) return; //if success is not complete continue
 
-            CashRewards(_CurrentMission.Rewards, _CurrentMissionLevel);
+            CashRewards(_CurrentMission.Rewards, _CurrentMission.CurrentLevel);
             NextMission();
             Debug.LogWarning("CASH REWARD");
         }
         private void ActionExecuted(GiftAction a) 
         {
 
-            foreach (Task task in _SuccessLevel.Keys) {
+            foreach (TaskData task in _Success) {
 
                 // check if it's a success action
-                if (!(task.Action is GiftAction action)) continue;
+                if (!(task.TaskRef.Action is GiftAction action)) continue;
                 if (a.GiftRef != action.GiftRef) continue;
 
                 if (!task.Objective.IncrementAmount()) continue; //if success is not complete continue
 
-                CashRewards(task.Rewards, _SuccessLevel[task]);
+                CashRewards(task.Rewards, task.CurrentLevel);
                 task.Objective.IncrementDifficulty();
-                _SuccessLevel[task]++;
+                task.IncrementLevel();
             }
 
-            // check if it's a success action
-            if (!(_CurrentMission.Action is GiftAction missionAction)) return;
+            // check if it's a Mission action
+            if (!(_CurrentMission.TaskRef.Action is GiftAction missionAction)) return;
             if (a.GiftRef != missionAction.GiftRef) return;
 
             if (!_CurrentMission.Objective.IncrementAmount()) return; //if success is not complete continue
 
-            CashRewards(_CurrentMission.Rewards, _CurrentMissionLevel);
+            CashRewards(_CurrentMission.Rewards, _CurrentMission.CurrentLevel);
             NextMission();
         }
         private void ActionExecuted(PopulationAction a) {
-            foreach (Task task in _SuccessLevel.Keys) 
+            foreach (TaskData task in _Success) 
             {
 
                 // check if it's a success action
-                if (!(task.Action is PopulationAction action)) continue;
+                if (!(task.TaskRef.Action is PopulationAction action)) continue;
                 if (a.PopulationRef != action.PopulationRef) continue;
 
                 if (!task.Objective.IncrementAmount()) continue; //if success is not complete continue
 
-                CashRewards(task.Rewards, _SuccessLevel[task]);
+                CashRewards(task.Rewards, task.CurrentLevel);
                 task.Objective.IncrementDifficulty();
-                _SuccessLevel[task]++;
+                task.IncrementLevel();
             }
 
-            // check if it's a success action
-            if (!(_CurrentMission.Action is PopulationAction missionAction)) return;
+            // check if it's a Mission action
+            if (!(_CurrentMission.TaskRef.Action is PopulationAction missionAction)) return;
             if (a.PopulationRef != missionAction.PopulationRef) return;
 
             if (!_CurrentMission.Objective.IncrementAmount()) return; //if success is not complete continue
 
-            CashRewards(_CurrentMission.Rewards, _CurrentMissionLevel);
+            CashRewards(_CurrentMission.Rewards, _CurrentMission.CurrentLevel);
             NextMission();
         }
 
@@ -152,7 +151,7 @@ namespace TheFantasticIsland.Manager
             if (index >= _Missions.Count)
             {
                 _CurrentMission = _Missions[0];
-                _CurrentMissionLevel++;
+                _CurrentMission.IncrementLevel();
                 _CurrentMission.Objective.IncrementDifficulty();
             }
             else
@@ -177,14 +176,32 @@ namespace TheFantasticIsland.Manager
 
         public IEnumerator Save()
         {
-            //todo
+            //todo 
             throw new System.NotImplementedException();
         }
 
         public IEnumerator Load()
         {
-            //todo
-            throw new System.NotImplementedException();
+
+             BundleDataManager.Instance.GetBundleData<Task>(_BundleName).ForEach((t => {
+                
+                switch (t.Type)
+                {
+                    case TaskType.Mission:
+                        _Missions.Add(new TaskData(t.BaseAmountObjective, t.BaseRewards, t));
+                        break;
+                    case TaskType.Success:
+                        _Success.Add(new TaskData(t.BaseAmountObjective, t.BaseRewards, t));
+                        break;
+                }
+                
+
+            }));
+
+            _CurrentMission = _Missions[0];
+
+            yield return null;
+            //todo load player saves
         }
     }
 }
