@@ -44,9 +44,9 @@ namespace TheFantasticIsland.Manager
         public IEnumerator Load()
         {
             //Load buildings list from bundle
-            yield return DataSystemManager.Instance.LoadLocalBundleAsync<Building>(_BundleName, data => _Buildings = data);
+            _Buildings = BundleDataManager.Instance.GetBundleData<Building>(_BundleName);
             BuyBuilding(_Buildings[0]); // TODO DELETE THIS
-
+            yield return null;
             //todo: Load player progression saved
         }
 
