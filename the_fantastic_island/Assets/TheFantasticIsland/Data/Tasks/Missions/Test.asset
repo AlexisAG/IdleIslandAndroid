@@ -15,10 +15,8 @@ MonoBehaviour:
   _Id: test
   _Description: test mission building
   _Type: 1
-  _Objective:
-    _AmountToReach: 10
+  _BaseAmountObjective: 1
   _Action: {fileID: 11400000, guid: 2aad62d13f0fee846a9532cef592fe5f, type: 2}
-  _Rewards:
-  - _Type: 1
-    _Resource: 3
-    _BaseAmount: 10
+  _BaseRewards:
+    _Keys: 01000000
+    _Values: c8000000
