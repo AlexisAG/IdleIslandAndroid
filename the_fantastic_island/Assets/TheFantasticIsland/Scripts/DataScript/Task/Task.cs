@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Versioning;
 using TheFantasticIsland.Helper;
 using UnityEngine;
 
@@ -15,17 +14,17 @@ namespace TheFantasticIsland.DataScript
         [SerializeField]
         private TaskType _Type = TaskType.None;
         [SerializeField]
-        private Objective _Objective = null;
+        private int _BaseAmountObjective = 1;
         [SerializeField]
         private Action _Action = null;
         [SerializeField]
-        private List<ResourceModificator> _Rewards = null;
+        private ResourceIntDictionary _BaseRewards = null;
 
         public string Id => _Id;
         public string Description => _Description;
         public TaskType Type => _Type;
-        public Objective Objective => _Objective;
+        public int BaseAmountObjective => _BaseAmountObjective;
         public Action Action => _Action;
-        public List<ResourceModificator> Rewards => _Rewards;
+        public ResourceIntDictionary BaseRewards => _BaseRewards;
     }
 }

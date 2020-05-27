@@ -13,11 +13,9 @@ namespace TheFantasticIsland.Helper
         [SerializeField]
         private int _BaseAmount = 0;
 
-        private int _Amount = 0;
-
         public ResourceModificatorType Type => _Type;
         public Resource Resource => _Resource;
-        public int Amount => _Amount;
+        public int Amount { get; private set; } = 0;
 
         public ResourceModificator(ResourceModificatorType type, Resource resource, int amount)
         {
@@ -28,10 +26,10 @@ namespace TheFantasticIsland.Helper
 
         public void AdjustAmount(int level = 0)
         {
-            _Amount = Mathf.FloorToInt(_BaseAmount * Mathf.Exp(level));
+            Amount = Mathf.FloorToInt(_BaseAmount * Mathf.Exp(level));
             if (Amount < 0)
             {
-                _Amount = -Amount;
+                Amount = -Amount;
             }
         }
     }
@@ -47,17 +45,15 @@ namespace TheFantasticIsland.Helper
         private Building _BuildingRef = null;
         [SerializeField]
         private int _LevelRequiredBase = 1;
-
-        private int _LevelRequired;
+        
 
         public string Id => _Id;
         public string Description => _Description;
         public Building BuildingRef => _BuildingRef;
-        public int LevelRequired => _LevelRequired;
 
-        public void AdjustCondition(int level = 0)
+        public int GetLevelRequired(int currentLevel)
         {
-            _LevelRequired = Mathf.FloorToInt(_LevelRequiredBase * Mathf.Exp(level));
+            return Mathf.FloorToInt(_LevelRequiredBase * Mathf.Exp(currentLevel));
         }
     }
 
@@ -68,6 +64,11 @@ namespace TheFantasticIsland.Helper
         protected int _AmountToReach = 1;
 
         private int _Amount = 0;
+
+        public Objective(int amount)
+        {
+            _AmountToReach = amount;
+        }
 
         public bool IncrementAmount()
         {
