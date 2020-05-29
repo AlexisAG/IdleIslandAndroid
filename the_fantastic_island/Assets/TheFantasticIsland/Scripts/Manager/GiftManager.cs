@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AgToolkit.AgToolkit.Core.DataSystem;
 using AgToolkit.AgToolkit.Core.Singleton;
 using AgToolkit.AgToolkit.Core.Timer;
+using AgToolkit.Core.Helper;
 using TheFantasticIsland.DataScript;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace TheFantasticIsland.Manager
 {
-    public class GiftManager : Singleton<GiftManager>
+    public class GiftManager : Singleton<GiftManager>, IBackup
     {
         [SerializeField]
         private List<Gift> _Gifts = new List<Gift>();
@@ -19,6 +21,11 @@ namespace TheFantasticIsland.Manager
         protected override void Awake()
         {
             base.Awake();
+            CoroutineManager.Instance.StartCoroutine(Load());
+        }
+
+        private void Start()
+        {
 
             foreach (var g in _Gifts)
             {
@@ -45,7 +52,7 @@ namespace TheFantasticIsland.Manager
 
         private void InstantiateGameObject(Gift g)
         {
-            GameObject.Instantiate(g.Prefab);
+            GameObject.Instantiate(g.Prefab).GetComponent<GiftInstance>().Init(g);
         }
 
         public void StartTimer(Gift g)
@@ -62,5 +69,14 @@ namespace TheFantasticIsland.Manager
             TimerManager.Instance.ResetTimer(_TimersGift[g]);
         }
 
+        public IEnumerator Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerator Load()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
