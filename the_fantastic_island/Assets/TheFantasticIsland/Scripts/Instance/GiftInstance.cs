@@ -16,7 +16,8 @@ public class GiftInstance : MonoBehaviour
 
     public void Init(Gift g)
     {
-
+        _GiftRef = g;
+        _Reward = new ResourceModificator(ResourceModificatorType.Reward, _GiftRef.Resource, _GiftRef.Reward);
     }
 
 }
