@@ -45,20 +45,10 @@ namespace TheFantasticIsland.Manager
 
         public void BuyDecoration(Decoration d)
         {
-            if (d.Cost.Type != ResourceModificatorType.Cost)
-            {
-                Debug.Assert(false, $"Decoration may have a {ResourceModificatorType.Cost} and not a {d.Cost.Type} (ResourceModificatorType)");
-                return;
-            }
-
-            d.Cost.AdjustAmount(_Wallets[d]); // adjust price for the decoration (security)
-
-            if (!ResourceManager.Instance.ChangeAmount(d.Cost.Resource, d.Cost.Type, d.Cost.Amount)) return; // if there is not enough Resource, return
+            if (!ResourceManager.Instance.ChangeAmount(d.Resource, ResourceModificatorType.Cost, (int)(d.Cost * Mathf.Exp(_Wallets[d]) ))) return; // if there is not enough Resource, return
 
             _Wallets[d] += 1;
             _DecoAvailable[d] += 1;
-
-            d.Cost.AdjustAmount(_Wallets[d]); // adjust price for the decoration 
         }
 
         public void PlaceDecoration(Decoration d)
@@ -66,6 +56,7 @@ namespace TheFantasticIsland.Manager
             if (_DecoAvailable[d] <= 0) return;
 
             DecorationInstance decoInstance = PoolManager.Instance.GetPooledObject(d.Prefab.name)?.GetComponent<DecorationInstance>();
+            decoInstance.Init(d);
             //todo: configure decoInstance
             decoInstance.gameObject.SetActive(true);
 

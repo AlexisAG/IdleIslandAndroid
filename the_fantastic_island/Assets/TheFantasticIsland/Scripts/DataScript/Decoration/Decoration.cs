@@ -11,13 +11,16 @@ namespace TheFantasticIsland.DataScript
         [SerializeField]
         private string _Description = null;
         [SerializeField]
-        private ResourceModificator _Cost = null;
+        private int _Cost = 0;
+        [SerializeField]
+        private Resource _Resource = Resource.Gold;
         [SerializeField]
         private GameObject _Prefab = null;
 
         public string Id => _Id;
         public string Description => _Description;
-        public ResourceModificator Cost => _Cost;
+        public int Cost => _Cost;
+        public Resource Resource => _Resource;
         public GameObject Prefab => _Prefab;
     }
 }
