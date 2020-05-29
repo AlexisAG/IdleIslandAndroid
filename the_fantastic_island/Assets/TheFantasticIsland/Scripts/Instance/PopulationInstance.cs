@@ -1,18 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TheFantasticIsland.DataScript;
+using TheFantasticIsland.Helper;
 using UnityEngine;
 
 public class PopulationInstance : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private Population _PopulationRef = null;
+    [SerializeField]
+    private ResourceModificator _Cost = null;
 
-    // Update is called once per frame
-    void Update()
+    public ResourceModificator Cost => _Cost;
+
+
+    public void Init(Population p)
     {
-        
+        _PopulationRef = p;
+        _Cost = new ResourceModificator(ResourceModificatorType.Cost, p.Resource, p.Cost);
     }
 }

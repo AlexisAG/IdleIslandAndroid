@@ -14,7 +14,9 @@ namespace TheFantasticIsland.DataScript
         [SerializeField]
         protected Bonus _Bonus = null;
         [SerializeField]
-        protected ResourceModificator _Cost = null;
+        protected int _Cost = 0;
+        [SerializeField]
+        protected Resource _Resource;
         [SerializeField]
         protected GameObject _Prefab = null;
 
@@ -22,7 +24,8 @@ namespace TheFantasticIsland.DataScript
         public string Description => _Description;
         public float TimeProduction => _TimeProduction;
         public Bonus Bonus => _Bonus;
-        public ResourceModificator Cost => _Cost;
+        public int Cost => _Cost;
+        public Resource Resource => _Resource;
         public GameObject Prefab => _Prefab;
     }
 }

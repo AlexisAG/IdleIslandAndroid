@@ -13,7 +13,7 @@ namespace TheFantasticIsland.Manager
         [SerializeField]
         private List<Population> _Populations = new List<Population>();
 
-        private Dictionary<Population, int> _Wallet = new Dictionary<Population, int>();
+        private Dictionary<Population, List<PopulationInstance>> _Wallet = new Dictionary<Population, List<PopulationInstance>>();
 
         public void SetupInterface()
         {
@@ -34,30 +34,18 @@ namespace TheFantasticIsland.Manager
 
         public void BuyPopulation(Population p)
         {
-            if (p.Cost.Type != ResourceModificatorType.Cost)
-            {
-                Debug.Assert(false, $"Population may have a {ResourceModificatorType.Cost} and not a {p.Cost.Type} (ResourceModificatorType)");
-                return;
-            }
-
             if (p is Animal a)
             {
                 //todo: check if the condition is ok with building manager
             }
 
-            p.Cost.AdjustAmount(_Wallet[p]); // adjust price for the decoration (security)
-
-            if (!ResourceManager.Instance.ChangeAmount(p.Cost.Resource, p.Cost.Type, p.Cost.Amount)) return;
-
+            if (!ResourceManager.Instance.ChangeAmount(p.Resource, ResourceModificatorType.Cost, (int)(p.Cost * Mathf.Exp(_Wallet[p].Count)))) return;
 
             PopulationInstance pop =  Instantiate(p.Prefab).GetComponent<PopulationInstance>();
             //todo configure populationInstance
             pop.gameObject.SetActive(true);
 
-            _Wallet[p] += 1;
-
-            p.Cost.AdjustAmount(_Wallet[p]);
-
+            _Wallet[p].Add(pop);
             BonusManager.Instance.AddBonus(p.Bonus);
         }
     }
