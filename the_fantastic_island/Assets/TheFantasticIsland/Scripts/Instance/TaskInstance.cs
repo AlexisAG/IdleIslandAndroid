@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TheFantasticIsland.Instance
 {
-    public class TaskData
+    public class TaskInstance
     {
         public Objective Objective { get; private set; }
         public List<ResourceModificator> Rewards { get; private set; } = new List<ResourceModificator>();
@@ -14,7 +14,7 @@ namespace TheFantasticIsland.Instance
 
         public int CurrentLevel { get; private set; } = 0;
 
-        public TaskData(int objectifBaseAmount, ResourceIntDictionary rewards, Task task)
+        public TaskInstance(int objectifBaseAmount, ResourceIntDictionary rewards, Task task)
         {
             TaskRef = task;
             Objective = new Objective(objectifBaseAmount);

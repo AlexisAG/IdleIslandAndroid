@@ -14,11 +14,11 @@ namespace TheFantasticIsland.Manager
         [SerializeField]
         private string _BundleName = "";
         [SerializeField]
-        private List<TaskData> _Missions = new List<TaskData>();
+        private List<TaskInstance> _Missions = new List<TaskInstance>();
         [SerializeField]
-        private List<TaskData> _Success = new List<TaskData>();
+        private List<TaskInstance> _Success = new List<TaskInstance>();
 
-        private TaskData _CurrentMission = null;
+        private TaskInstance _CurrentMission = null;
 
         public BuildingActionGameEventListener BuildingActionGameEventListener { get; private set; }
         public PopulationActionGameEventListener PopulationActionGameEventListener { get; private set; }
@@ -59,7 +59,7 @@ namespace TheFantasticIsland.Manager
 
         private void ActionExecuted(BuildingAction a) {
 
-            foreach (TaskData task in _Success) 
+            foreach (TaskInstance task in _Success) 
             {
 
                 // check if it's a success action
@@ -89,7 +89,7 @@ namespace TheFantasticIsland.Manager
         private void ActionExecuted(GiftAction a) 
         {
 
-            foreach (TaskData task in _Success) {
+            foreach (TaskInstance task in _Success) {
 
                 // check if it's a success action
                 if (!(task.TaskRef.Action is GiftAction action)) continue;
@@ -112,7 +112,7 @@ namespace TheFantasticIsland.Manager
             NextMission();
         }
         private void ActionExecuted(PopulationAction a) {
-            foreach (TaskData task in _Success) 
+            foreach (TaskInstance task in _Success) 
             {
 
                 // check if it's a success action
@@ -184,10 +184,10 @@ namespace TheFantasticIsland.Manager
                 switch (t.Type)
                 {
                     case TaskType.Mission:
-                        _Missions.Add(new TaskData(t.BaseAmountObjective, t.BaseRewards, t));
+                        _Missions.Add(new TaskInstance(t.BaseAmountObjective, t.BaseRewards, t));
                         break;
                     case TaskType.Success:
-                        _Success.Add(new TaskData(t.BaseAmountObjective, t.BaseRewards, t));
+                        _Success.Add(new TaskInstance(t.BaseAmountObjective, t.BaseRewards, t));
                         break;
                 }
                 
