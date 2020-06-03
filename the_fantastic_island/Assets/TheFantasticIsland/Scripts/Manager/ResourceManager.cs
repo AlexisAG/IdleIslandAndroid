@@ -38,6 +38,39 @@ namespace TheFantasticIsland.Manager
         {
             return _Wallet[r];
         }
+
+        public static string GetResourceText(Resource r)
+        {
+            switch (r) {
+                case Resource.Gold:
+                    return "Gold";
+                case Resource.Tools:
+                    return "Tools";
+                case Resource.Knowledge:
+                    return "Knowledge";
+                case Resource.Diamond:
+                    return "Diamond";
+                default:
+                    return "";
+            }
+        }
+
+        // todo
+        public static string GetResourceIconPath(Resource r)
+        {
+            switch (r) {
+                case Resource.Gold:
+                    return "";
+                case Resource.Tools:
+                    return "";
+                case Resource.Knowledge:
+                    return "";
+                case Resource.Diamond:
+                    return "";
+                default:
+                    return "";
+            }
+        }
     }
 }
 
