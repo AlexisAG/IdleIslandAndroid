@@ -29,19 +29,38 @@ namespace TheFantasticIsland.Manager
             CoroutineManager.Instance.StartCoroutine(Load());
         }
 
+        private void CreateBuilding(Building b, int production = 0, int size = 0)
+        {
+            BuildingInstance instance = Instantiate(b.BuildingPrefab).GetComponent<BuildingInstance>();
+            instance.Init(b);
+            //todo: set position
+            instance.gameObject.SetActive(true);
+            _BuildingInstances.Add(b, instance);
+        }
+
         public IEnumerator Save()
         {
-            throw new System.NotImplementedException();
-            //todo:
+            foreach (Building b in _BuildingInstances.Keys)
+            {
+                BuildingInstance instance = _BuildingInstances[b];
+                DataSystem.SaveGameInBinary("Building", new BuildingDataSerializable(b.Id, instance.SizeLevel, instance.ProductionLevel), b.Id);
+                yield return null;
+            }
         }
 
         public IEnumerator Load()
         {
             //Load buildings list from bundle
             _Buildings = BundleDataManager.Instance.GetBundleData<Building>(_BundleName);
-            BuyBuilding(_Buildings[0]); // TODO DELETE THIS
             yield return null;
-            //todo: Load player progression saved
+
+            // Load save
+            DataSystem.LoadAllDataFromBinary<BuildingDataSerializable>("Building").ForEach((data =>
+            {
+                Building b = _Buildings.Find((building => building.Id == data.BuildingId));
+                Debug.Assert(b != null, $"There is no building {data.BuildingId}.");
+                CreateBuilding(b, data.ProductionLevel, data.SizeLevel);
+            }));
         }
 
         public void BuyBuilding(Building b)
@@ -54,11 +73,8 @@ namespace TheFantasticIsland.Manager
 
             if (!ResourceManager.Instance.ChangeAmount(b.Resource, ResourceModificatorType.Cost, b.Cost)) return;
 
-            BuildingInstance instance = Instantiate(b.BuildingPrefab).GetComponent<BuildingInstance>();
-            instance.Init(b);
-            instance.gameObject.SetActive(true);
+            CreateBuilding(b);
 
-            _BuildingInstances.Add(b, instance);
         }
 
         public void IncreaseBuildingProduction(Building b)
