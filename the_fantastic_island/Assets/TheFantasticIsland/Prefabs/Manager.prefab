@@ -90,8 +90,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Buildings: []
   _BundleName: buildings
-  _Ui: {fileID: 0}
-  _UiContent: {fileID: 2434687361522653396, guid: 9032d7a14634c8549a87cd84cbe73634,
+  _UiContent: {fileID: 2680906223671142738, guid: 9032d7a14634c8549a87cd84cbe73634,
     type: 3}
 --- !u!114 &1227498770472835849
 MonoBehaviour:

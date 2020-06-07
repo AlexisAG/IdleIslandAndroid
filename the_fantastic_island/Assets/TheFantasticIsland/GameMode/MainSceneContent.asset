@@ -16,6 +16,8 @@ MonoBehaviour:
     _sceneAsset: {fileID: 0}
     _scenePath: 
   ContentScenes:
+  - _sceneAsset: {fileID: 102900000, guid: a17f2d286ab60024796a4f50b4a34bc8, type: 3}
+    _scenePath: Assets/TheFantasticIsland/Scenes/Ui.unity
   - _sceneAsset: {fileID: 102900000, guid: 610015644b4b1364ca4645c26b732f04, type: 3}
     _scenePath: Assets/TheFantasticIsland/Scenes/MainScene.unity
   LightingScene:
