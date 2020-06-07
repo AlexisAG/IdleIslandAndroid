@@ -39,9 +39,12 @@ namespace TheFantasticIsland.Manager
                 ContentBuildingUI element = GameObject.Instantiate(_UiContent).GetComponent<ContentBuildingUI>();
                 
                 element.SetName(b.Id);
+                element.SetDescription(b.Description);
                 element.SetIcon(b.Sprite);
                 element.SetCostResourceType(b.Resource, b.ResourceSizeCost);
                 element.SetProductionInfo($"{ResourceManager.GetResourceText(b.Resource)}: {b.BaseProduction}/{b.TimeToProduct}s");
+                element.SetAmount(b.Cost, b.SizeCost);
+                element.Unlock.GetComponentInChildren<Text>().text = $"Unlock it for {b.Cost} {b.Resource}.";
 
                 if (_BuildingInstances.ContainsKey(b))
                 {

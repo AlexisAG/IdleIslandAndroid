@@ -13,6 +13,8 @@ namespace TheFantasticIsland.Ui
         [SerializeField]
         private Text _Title = null;
         [SerializeField]
+        private Text _Description = null;
+        [SerializeField]
         private Text _Info = null;
         [SerializeField]
         private Text _PorductionLevel = null;
@@ -42,17 +44,22 @@ namespace TheFantasticIsland.Ui
         {
             _ProductionChild.SetActive(false);
             _SizeChild.SetActive(false);
+            IncreaseProduction.gameObject.GetComponent<Image>().color = Color.gray;
+            IncreaseSize.gameObject.GetComponent<Image>().color = Color.gray;
         }
 
         private void LateUpdate()
         {
             if (_ProductionCostR == Resource.None || _SizeCostR == Resource.None) return;
 
-            bool unlockStatus = Unlock.enabled;
-            Unlock.enabled = ResourceManager.Instance.GetAmount(_ProductionCostR) >= _ProductionAmount;
+            if (Unlock.gameObject.activeSelf)
+            {
+                bool unlockStatus = false;
+                Unlock.enabled = ResourceManager.Instance.GetAmount(_ProductionCostR) >= _ProductionAmount;
 
-            if (unlockStatus != Unlock.enabled) {
-                Unlock.gameObject.GetComponent<Image>().color = Unlock.enabled ? Color.green : Color.gray;
+                if (unlockStatus != Unlock.enabled) {
+                    Unlock.gameObject.GetComponent<Image>().color = Unlock.enabled ? Color.green : Color.gray;
+                }
             }
 
             if (!IncreaseProduction.gameObject.activeSelf || !IncreaseSize.gameObject.activeSelf) return;
@@ -83,6 +90,11 @@ namespace TheFantasticIsland.Ui
         public void SetName(string title)
         {
             _Title.text = title;
+        }
+
+        public void SetDescription(string desc)
+        {
+            _Description.text = desc;
         }
 
         public void SetProductionInfo(string productionInfo)
