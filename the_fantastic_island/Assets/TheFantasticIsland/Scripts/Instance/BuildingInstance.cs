@@ -27,6 +27,7 @@ namespace TheFantasticIsland.Instance
         public int ProductionLevel { get; private set; }
         public int SizeLevel { get; private set; }
         public float ProductionPerSecond { get; private set; }
+
         public ResourceModificator ResourceProduction => _ResourceProduction;
         public ResourceModificator IncreaseSizeCost => _IncreaseSizeCost;
         public ResourceModificator Cost => _Cost;
@@ -53,16 +54,7 @@ namespace TheFantasticIsland.Instance
 
         private void Product()
         {
-            _ResourceProduction.AdjustAmount(ProductionLevel);
-
-            Dictionary<BuildingPropertiesType, float> bonuses = BonusManager.Instance.GetBonuses(_BuildingRef);
-
-            float amount = _ResourceProduction.Amount * (SizeLevel + 1);
-            float productivityBonus = bonuses.ContainsKey(BuildingPropertiesType.Productivity) ? bonuses[BuildingPropertiesType.Productivity] : 0f;
-            float resourceBonus = BonusManager.Instance.GetBonuses(_ResourceProduction.Resource);
-
-            amount += _ResourceProduction.Amount * productivityBonus;
-            amount += amount * resourceBonus;
+            float amount = GetProductionAmount();
 
             ProductionPerSecond = amount / _BuildingRef.TimeToProduct;
 
@@ -82,7 +74,7 @@ namespace TheFantasticIsland.Instance
 
             _ResourceProduction = new ResourceModificator(ResourceModificatorType.Reward, _BuildingRef.Resource, _BuildingRef.BaseProduction);
             _Cost = new ResourceModificator(ResourceModificatorType.Cost, _BuildingRef.Resource, _BuildingRef.Cost);
-            _IncreaseSizeCost = new ResourceModificator(ResourceModificatorType.Cost, _BuildingRef.Resource, _BuildingRef.SizeCost);
+            _IncreaseSizeCost = new ResourceModificator(ResourceModificatorType.Cost, _BuildingRef.ResourceSizeCost, _BuildingRef.SizeCost);
         }
 
         public void IncreaseProduction()
@@ -99,6 +91,45 @@ namespace TheFantasticIsland.Instance
             //todo display new environment
 
             _GameEventTriggers[BuildingPropertiesType.SizeCost].Trigger();
+        }
+        public float GetProductionCost() 
+        {
+            Dictionary<BuildingPropertiesType, float> bonuses = BonusManager.Instance.GetBonuses(_BuildingRef);
+            float productionCostBonus = bonuses.ContainsKey(BuildingPropertiesType.ProductivityCost) ? bonuses[BuildingPropertiesType.ProductivityCost] : 0f;
+
+            // adjust amount
+            Cost.AdjustAmount(ProductionLevel);
+            float amount = Cost.Amount;
+            amount += Cost.Amount * productionCostBonus;
+
+            return amount;
+        }
+
+        public float GetSizeCost()
+        {
+            Dictionary<BuildingPropertiesType, float> bonuses = BonusManager.Instance.GetBonuses(_BuildingRef);
+            float sizeCostBonus = bonuses.ContainsKey(BuildingPropertiesType.SizeCost) ? bonuses[BuildingPropertiesType.SizeCost] : 0f;
+
+            // adjust amount
+            IncreaseSizeCost.AdjustAmount(SizeLevel);
+            float amount = IncreaseSizeCost.Amount;
+            amount += IncreaseSizeCost.Amount * sizeCostBonus;
+
+            return amount;
+        }
+
+        public float GetProductionAmount() {
+            Dictionary<BuildingPropertiesType, float> bonuses = BonusManager.Instance.GetBonuses(_BuildingRef);
+            _ResourceProduction.AdjustAmount(ProductionLevel);
+
+            float amount = _ResourceProduction.Amount * (SizeLevel + 1);
+            float productivityBonus = bonuses.ContainsKey(BuildingPropertiesType.Productivity) ? bonuses[BuildingPropertiesType.Productivity] : 0f;
+            float resourceBonus = BonusManager.Instance.GetBonuses(_ResourceProduction.Resource);
+
+            amount += _ResourceProduction.Amount * productivityBonus;
+            amount += amount * resourceBonus;
+
+            return amount;
         }
 
     }

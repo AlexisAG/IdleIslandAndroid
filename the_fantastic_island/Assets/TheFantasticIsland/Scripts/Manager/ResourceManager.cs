@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using AgToolkit.AgToolkit.Core.Singleton;
+﻿using AgToolkit.AgToolkit.Core.Singleton;
 using TheFantasticIsland.Helper;
 using UnityEngine;
 
@@ -30,6 +28,7 @@ namespace TheFantasticIsland.Manager
             }
 
             _Wallet[r] = currentAmount; 
+            UiManager.Instance.UpdateResourceInfo(r);
 
             return true;
         }

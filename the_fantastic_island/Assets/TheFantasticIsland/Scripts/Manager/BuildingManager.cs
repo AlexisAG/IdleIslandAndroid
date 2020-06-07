@@ -6,6 +6,7 @@ using AgToolkit.Core.Helper;
 using TheFantasticIsland.DataScript;
 using TheFantasticIsland.Helper;
 using TheFantasticIsland.Instance;
+using TheFantasticIsland.Ui;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,8 +19,6 @@ namespace TheFantasticIsland.Manager
         [SerializeField]
         private string _BundleName = "";
         [SerializeField]
-        private ScrollableInterface _Ui = null;
-        [SerializeField]
         private GameObject _UiContent = null;
 
         private Dictionary<Building, BuildingInstance> _BuildingInstances = new Dictionary<Building, BuildingInstance>();
@@ -31,23 +30,69 @@ namespace TheFantasticIsland.Manager
 
         private void SetupInterface()
         {
-            Debug.Assert(_Ui != null);
             Debug.Assert(_UiContent != null);
+
+            UiManager.Instance.UiBuilding.SetTitle("Buildings");
 
             foreach (Building b in _Buildings)
             {
-                GameObject element = GameObject.Instantiate(_UiContent);
-                element.GetComponentInChildren<Button>().GetComponentInChildren<Text>().text = $"Buy {b.Cost} {ResourceManager.GetResourceText(b.Resource)}";
-                element.GetComponentInChildren<Button>().onClick.AddListener((() =>
+                ContentBuildingUI element = GameObject.Instantiate(_UiContent).GetComponent<ContentBuildingUI>();
+                
+                element.SetName(b.Id);
+                element.SetIcon(b.Sprite);
+                element.SetCostResourceType(b.Resource, b.ResourceSizeCost);
+                element.SetProductionInfo($"{ResourceManager.GetResourceText(b.Resource)}: {b.BaseProduction}/{b.TimeToProduct}s");
+
+                if (_BuildingInstances.ContainsKey(b))
                 {
-                    if (BuyBuilding(b))
+                    element.SetProductionLevel(_BuildingInstances[b].ProductionLevel + 1);
+                    element.SetSizeLevel(_BuildingInstances[b].SizeLevel + 1);
+                    element.SetAmount(_BuildingInstances[b].GetProductionCost(), _BuildingInstances[b].GetSizeCost());
+                    element.SetProductionInfo($"{ResourceManager.GetResourceText(b.Resource)}: {_BuildingInstances[b].GetProductionAmount()}/{b.TimeToProduct}s");
+                    element.ContentUnlocked();
+                }
+                else
+                {
+                    element.Unlock.onClick.AddListener((() =>
                     {
-                        element.GetComponentInChildren<Button>().GetComponentInChildren<Text>().text = $"Increase Production to level {_BuildingInstances[b].ProductionLevel + 1} \n {b.Cost} {ResourceManager.GetResourceText(b.Resource)}";
-                    };
-                }));
-                element.GetComponentsInChildren<Text>()[1].text = b.Description;
-                _Ui.AddContent(element);   
+                        if(!BuildingManager.Instance.BuyBuilding(b)) return;
+
+                        if (!_BuildingInstances.ContainsKey(b)) return;
+
+                        element.SetProductionLevel(_BuildingInstances[b].ProductionLevel +1);
+                        element.SetSizeLevel(_BuildingInstances[b].SizeLevel + 1);
+                        element.SetAmount(_BuildingInstances[b].GetProductionCost(), _BuildingInstances[b].GetSizeCost());
+                        element.SetProductionInfo($"{ResourceManager.GetResourceText(b.Resource)}: {_BuildingInstances[b].GetProductionAmount()}/{b.TimeToProduct}s");
+                            
+                        //Set price info
+                        element.IncreaseProduction.GetComponentInChildren<Text>().text = $"{ResourceManager.GetResourceText(b.Resource)}: {_BuildingInstances[b].GetProductionCost()}";
+                        element.IncreaseSize.GetComponentInChildren<Text>().text = $"{ResourceManager.GetResourceText(b.ResourceSizeCost)}: {_BuildingInstances[b].GetSizeCost()}";
+
+                        //Add listener buttons
+                        element.IncreaseProduction.onClick.AddListener((() =>
+                        {
+                            if (!IncreaseBuildingProduction(b)) return;
+                            element.IncreaseProduction.GetComponentInChildren<Text>().text = $"{ResourceManager.GetResourceText(b.Resource)}: {_BuildingInstances[b].GetProductionCost()}";
+                            element.SetProductionLevel(_BuildingInstances[b].ProductionLevel + 1);
+                            element.SetAmount(_BuildingInstances[b].GetProductionCost(), _BuildingInstances[b].GetSizeCost());
+                            element.SetProductionInfo($"{ResourceManager.GetResourceText(b.Resource)}: {_BuildingInstances[b].GetProductionAmount()}/{b.TimeToProduct}s");
+                        }));
+                        element.IncreaseSize.onClick.AddListener((() =>
+                        {
+                            if (!IncreaseBuildingSize(b)) return;
+                            element.IncreaseSize.GetComponentInChildren<Text>().text = $"{ResourceManager.GetResourceText(b.ResourceSizeCost)}: {_BuildingInstances[b].GetSizeCost()}";
+                            element.SetSizeLevel(_BuildingInstances[b].SizeLevel + 1);
+                            element.SetAmount(_BuildingInstances[b].GetProductionCost(), _BuildingInstances[b].GetSizeCost());
+                            element.SetProductionInfo($"{ResourceManager.GetResourceText(b.Resource)}: {_BuildingInstances[b].GetProductionAmount()}/{b.TimeToProduct}s");
+                        }));
+
+                        element.ContentUnlocked();
+                    }));
+                }
+
+                UiManager.Instance.UiBuilding.AddContent(element.gameObject);   
             }
+            UiManager.Instance.UiBuilding.gameObject.SetActive(false);
         }
 
         private void CreateBuilding(Building b, int production = 0, int size = 0)
@@ -109,13 +154,7 @@ namespace TheFantasticIsland.Manager
                 return false;
             }
 
-            Dictionary<BuildingPropertiesType, float> bonuses = BonusManager.Instance.GetBonuses(b);
-            float productionCostBonus = bonuses.ContainsKey(BuildingPropertiesType.ProductivityCost) ? bonuses[BuildingPropertiesType.ProductivityCost] : 0f;
-
-            // adjust amount
-            _BuildingInstances[b].Cost.AdjustAmount(_BuildingInstances[b].ProductionLevel);
-            float amount = _BuildingInstances[b].Cost.Amount;
-            amount += _BuildingInstances[b].Cost.Amount * productionCostBonus;
+            float amount = _BuildingInstances[b].GetProductionCost();
 
             if (!ResourceManager.Instance.ChangeAmount(_BuildingInstances[b].Cost.Resource, _BuildingInstances[b].Cost.Type,Mathf.FloorToInt(amount))) return false;
 
@@ -133,13 +172,7 @@ namespace TheFantasticIsland.Manager
 
             if (!_BuildingInstances.ContainsKey(b)) return false;
 
-            Dictionary<BuildingPropertiesType, float> bonuses = BonusManager.Instance.GetBonuses(b);
-            float sizeCostBonus = bonuses.ContainsKey(BuildingPropertiesType.SizeCost) ? bonuses[BuildingPropertiesType.SizeCost] : 0f;
-
-            // adjust amount
-            _BuildingInstances[b].IncreaseSizeCost.AdjustAmount(_BuildingInstances[b].SizeLevel);
-            float amount = _BuildingInstances[b].IncreaseSizeCost.Amount;
-            amount += _BuildingInstances[b].IncreaseSizeCost.Amount * sizeCostBonus;
+            float amount = _BuildingInstances[b].GetSizeCost();
 
             if (!ResourceManager.Instance.ChangeAmount(_BuildingInstances[b].IncreaseSizeCost.Resource, _BuildingInstances[b].IncreaseSizeCost.Type, Mathf.FloorToInt(amount))) return false;
 

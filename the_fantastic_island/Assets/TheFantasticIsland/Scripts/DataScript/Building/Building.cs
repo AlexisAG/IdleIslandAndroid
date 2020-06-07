@@ -22,9 +22,13 @@ namespace TheFantasticIsland.DataScript
         [SerializeField]
         private Resource _Resource = Resource.Gold;
         [SerializeField]
+        private Resource _ResourceSizeCost = Resource.Tools;
+        [SerializeField]
         private GameObject _BuildingPrefab = null;
         [SerializeField]
         private GameObject _WorkerPrefab = null;
+        [SerializeField]
+        private Sprite _Sprite = null;
         [SerializeField]
         private List<BuildingAction> _BuildingActions = new List<BuildingAction>();
 
@@ -35,8 +39,10 @@ namespace TheFantasticIsland.DataScript
         public int Cost => _Cost;
         public int SizeCost => _SizeCost;
         public Resource Resource => _Resource;
+        public Resource ResourceSizeCost => _ResourceSizeCost;
         public GameObject BuildingPrefab => _BuildingPrefab;
         public GameObject WorkerPrefab => _WorkerPrefab;
+        public Sprite Sprite => _Sprite;
         public List<BuildingAction> BuildingActions => _BuildingActions;
     }
 }
