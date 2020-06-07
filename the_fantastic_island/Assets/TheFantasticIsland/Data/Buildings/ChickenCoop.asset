@@ -10,18 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 635b9bfde72b2d8408db63874b3e8e7f, type: 3}
-  m_Name: NewBuilding
+  m_Name: ChickenCoop
   m_EditorClassIdentifier: 
-  _Id: test
-  _Description: Building test
+  _Id: ChickenCoop
+  _Description: A sweet chicken coop for your hen.
   _TimeToProduct: 3
   _BaseProduction: 100
   _Cost: 500
-  _SizeCost: 0
+  _SizeCost: 1000
   _Resource: 1
+  _ResourceSizeCost: 2
   _BuildingPrefab: {fileID: 6333024535839953266, guid: 2d60bc4d7cc6b174ca03a983c0b64622,
     type: 3}
   _WorkerPrefab: {fileID: 0}
+  _Sprite: {fileID: 21300000, guid: 18f2c2bfe02f8c34d95d0eef8d9ec0fe, type: 3}
   _BuildingActions:
   - {fileID: 11400000, guid: 3ea2ac1396b1dcb42bafbd562b651524, type: 2}
   - {fileID: 11400000, guid: 2aad62d13f0fee846a9532cef592fe5f, type: 2}
