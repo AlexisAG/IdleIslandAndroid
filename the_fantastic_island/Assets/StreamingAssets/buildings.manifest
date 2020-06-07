@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1380887339
+CRC: 1467122585
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 61a81f64acbc90c109561345e837e595
+    Hash: d075f134d603be9fa6f5a05865534eec
   TypeTreeHash:
     serializedVersion: 2
-    Hash: c9a28cf653ce2277a068eb97619ce3a4
+    Hash: a14b8804a0468c3cc9ad417304a3afe6
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -16,6 +16,8 @@ ClassTypes:
 - Class: 21
   Script: {instanceID: 0}
 - Class: 23
+  Script: {instanceID: 0}
+- Class: 28
   Script: {instanceID: 0}
 - Class: 33
   Script: {instanceID: 0}
@@ -33,7 +35,9 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 136
   Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
 Assets:
-- Assets/TheFantasticIsland/Data/Buildings/NewBuilding.asset
+- Assets/TheFantasticIsland/Data/Buildings/ChickenCoop.asset
 Dependencies:
 - D:/Prog/Unity/IdleIslandAndroid/the_fantastic_island/Assets/StreamingAssets/actions
