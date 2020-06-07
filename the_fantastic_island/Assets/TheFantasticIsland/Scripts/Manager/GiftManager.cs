@@ -71,12 +71,12 @@ namespace TheFantasticIsland.Manager
 
         public IEnumerator Save()
         {
-            throw new NotImplementedException();
+            yield break;
         }
 
         public IEnumerator Load()
         {
-            throw new NotImplementedException();
+            yield break;
         }
     }
 }

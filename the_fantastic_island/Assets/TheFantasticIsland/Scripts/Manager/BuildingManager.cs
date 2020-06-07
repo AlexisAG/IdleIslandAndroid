@@ -23,11 +23,6 @@ namespace TheFantasticIsland.Manager
 
         private Dictionary<Building, BuildingInstance> _BuildingInstances = new Dictionary<Building, BuildingInstance>();
 
-        private void Start()
-        {
-            CoroutineManager.Instance.StartCoroutine(Load());
-        }
-
         private void SetupInterface()
         {
             Debug.Assert(_UiContent != null);

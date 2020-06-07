@@ -22,13 +22,13 @@ namespace TheFantasticIsland.Manager
         public IEnumerator Save()
         {
             //todo
-            throw new System.NotImplementedException();
+            yield break;
         }
 
         public IEnumerator Load()
         {
             //todo:
-            throw new System.NotImplementedException();
+            yield break;
         }
 
         public void AddBonus(Bonus b)

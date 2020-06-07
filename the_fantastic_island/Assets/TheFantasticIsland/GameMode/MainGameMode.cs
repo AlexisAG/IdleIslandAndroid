@@ -1,15 +1,23 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using AgToolkit.Core.GameModes;
-using AgToolkit.Core.Pool;
+using TheFantasticIsland.Manager;
 using UnityEngine;
 
-public class MainGameMode : GameMode
+namespace TheFantasticIsland.GameModes
 {
-    public override IEnumerator OnLoad()
+    public class MainGameMode : GameMode
     {
-        return base.OnLoad();
-        //todo: pool
-        //todo: Load data 
+        public override IEnumerator OnLoad() {
+            yield return base.OnLoad();
+
+            //todo pool
+
+            //Load
+            yield return TaskManager.Instance.Load();
+            yield return BonusManager.Instance.Load();
+            yield return BuildingManager.Instance.Load();
+            yield return DecorationManager.Instance.Load();
+            yield return GiftManager.Instance.Load();
+        }
     }
 }
